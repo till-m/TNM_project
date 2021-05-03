@@ -6,7 +6,7 @@ import copy
 from matplotlib import animation
 from matplotlib import cm
 
-example_filename = 'data/sub-001/ses-LSD/func/sub-001_ses-LSD_task-rest_run-02_bold.nii.gz'
+example_filename = 'data/ds003059/sub-001/ses-LSD/func/sub-001_ses-LSD_task-rest_run-03_bold.nii.gz'
 
 img = nib.load(example_filename)
 
@@ -15,7 +15,7 @@ print("Converting to numpy array. This might take some time...")
 img_f = img.get_fdata()
 print("Data is numpy now.")
 #             [x, y, z,  t]
-img_f2 = img_f[:, :, :, 45] # Fix the z-level (roughly in the middle)
+img_f2 = img_f[:, :, 45, :] # Fix the z-level (roughly in the middle)
 # First set up the figure, the axis, and the plot element we want to animate
 fig = plt.figure()
 
