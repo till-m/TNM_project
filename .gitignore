@@ -1,1 +1,5 @@
-data/ds003059
+data/ds003059/
+.temp/
+__pycache__/
+nilearn_cache/
+
