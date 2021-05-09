@@ -8,7 +8,7 @@ import matlab.engine
 matlab_engine = matlab.engine.start_matlab()
 
 
-def call_tapas_rDCM(header, freq_series):
+def call_tapas_rDCM(header, time_series):
     try:
         os.mkdir('.temp')
     except FileExistsError:
@@ -48,8 +48,7 @@ def call_tapas_rDCM(header, freq_series):
 def rDCM_from_fMRI(path):
     img = nib.load(path)
     parcellated_img = pid.parcellation("Yeo", img)
-    freq_series = pid.Fourier_transform(parcellated_img[0])
-    return call_tapas_rDCM(img.header, freq_series)
+    return call_tapas_rDCM(img.header, parcellated_img[0])
 
 
 def example_call():
