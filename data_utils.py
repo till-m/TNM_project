@@ -165,8 +165,8 @@ if __name__ == '__main__':
     bold_data_03, bold_data_df_03 = load_data(
         "/Users/zhenrujia/Downloads/Sub_01_LSD_03.nii")
 
-    time_series_01, labels = parcellation("Harvard-Oxford", bold_data_01)
-    time_series_03, labels = parcellation("Harvard-Oxford", bold_data_03)
+    time_series_01, labels = parcellation("harvox", bold_data_01)
+    time_series_03, labels = parcellation("harvox", bold_data_03)
     combined_series = combine_series(time_series_01, time_series_03)
 
     pathname = save_data(combined_series, "01", 1)
