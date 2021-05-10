@@ -21,10 +21,8 @@ def load_data(path_name):
         Extracted from Nifti1Image.
     '''
     bold_data = nib.load(path_name)
-    bold_data_df = bold_data
-    bold_data_df.get_fdata()
-    bold_data_df = bold_data_df.get_fdata()
-    print(bold_data_df.shape)
+    bold_data_df = bold_data.get_fdata()
+    print("The shape of the data is", bold_data_df.shape)
     return (bold_data,bold_data_df)
 
 
@@ -60,7 +58,7 @@ def parcellation(Type, data):
     elif Type == "Yeo": # 17 regions
         dataset = datasets.fetch_atlas_yeo_2011()
         masker = NiftiLabelsMasker(labels_img=dataset['thick_17'], standardize=True, 
-                                   high_variance_confounds = True, memory='nilearn_cache',  verbose = 1)
+                                   high_variance_confounds = True, verbose = 1)
         time_series = masker.fit_transform(data)
         labels = list(np.arange(0,time_series.shape[1]+1))
         print ("Using the Yeo 2011 parcellation, there are {} regions.".format(time_series.shape[1]))
@@ -69,7 +67,7 @@ def parcellation(Type, data):
         dataset = datasets.fetch_atlas_aal(version='SPM12')
         labels = ["Background"] + dataset['labels']
         masker = NiftiLabelsMasker(labels_img=dataset['maps'], standardize=True, 
-                                   high_variance_confounds = True, memory='nilearn_cache', verbose = 1)
+                                   high_variance_confounds = True, verbose = 1)
         time_series = masker.fit_transform(data)
         print ("Using the AAL parcellation, there are {} regions.".format(time_series.shape[1]))
     print (time_series.shape)
@@ -78,7 +76,29 @@ def parcellation(Type, data):
 
 
 
+
 import numpy as np
+def combine_series(time_series_1, time_series_2):
+    '''
+    Parameters
+    ----------
+    time_series_1 : array
+        Array of time series 01.
+    time_series_2 : array
+        Array of time series 03.
+
+    Returns
+    -------
+    combined_series : array
+        Combined array of time series 01 and time series 03.
+    '''
+    print ("Combining the two time series")
+    combined_series = np.concatenate((time_series_1, time_series_2),axis = 0)
+    return combined_series
+
+
+
+
 def Fourier_transform(data):
     '''
     Parameters
@@ -91,6 +111,7 @@ def Fourier_transform(data):
     freq_series : array
         Discrete Fourier Transform into the frequency domain.
     '''
+    print ("Fourier Transform")
     freq_series = np.fft.fft(data, axis=0) #axis = 0: the transform is performed on each column
     return freq_series
 
@@ -123,23 +144,48 @@ def plot_corr(time_series,labels):
 
 
 
+import pandas as pd
+def save_data(data, subject, LSD):
+    '''
+    Parameters
+    ----------
+    data : array
+        Frequency series.
+    subject : string
+        Number of the subject.
+    LSD: int
+        Indicator of whether it's the data after taking LSD.
 
-# =============================================================================
-#  --- try to find Confound ---
-# from nilearn.input_data import NiftiSpheresMasker
-# seed_masker = NiftiSpheresMasker([(0, -53, 26)])
-# seed_time_series = seed_masker.fit_transform(img)
-# 
-# t_r = 2.
-# n_scans = 176
-# frametimes = np.linspace(0, (n_scans - 1) * t_r, n_scans)
-# 
-# design_matrix = make_first_level_design_matrix(frametimes, hrf_model='spm',
-#                                                add_regs=seed_time_series,
-#                                                add_reg_names=["pcc_seed"])
-# 
-# first_level_model = FirstLevelModel(t_r=t_r, slice_time_ref=slice_time_ref)
-# first_level_model = first_level_model.fit(run_imgs=adhd_dataset.func[0],
-#                                     design_matrices=design_matrix)
-# 
-# =============================================================================
+    Returns
+    -------
+    pathname : string
+        Path name of the file saved.
+    '''
+    print ("Saving the data")
+    data_df = pd.DataFrame(data)
+    if LSD == 1:
+        pathname = '/Users/zhenrujia/Downloads/Time_series_BOLD' + '_sub' + subject + '_LSD' + '.csv'
+    else:
+        pathname = '/Users/zhenrujia/Downloads/Time_series_BOLD' + '_sub' + subject + '_PLCB' + '.csv'
+    data_df.to_csv(pathname, index=False)
+    return pathname
+
+
+
+
+
+if __name__ == '__main__':
+    # Example
+    bold_data_01,bold_data_df_01 = load_data("/Users/zhenrujia/Downloads/Sub_01_LSD_01.nii")
+    bold_data_03,bold_data_df_03 = load_data("/Users/zhenrujia/Downloads/Sub_01_LSD_03.nii")
+    
+    time_series_01,labels = parcellation("Harvard-Oxford", bold_data_01)
+    time_series_03,labels = parcellation("Harvard-Oxford", bold_data_03)
+    combined_series = combine_series(time_series_01,time_series_03)
+
+    pathname = save_data(combined_series, "01", 1)
+
+
+
+
+
