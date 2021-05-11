@@ -1,11 +1,9 @@
 % fix the random number generator
-rng(2406,'twister') % is this still necessary?
-
+rng(2406,'twister')
 
 % get path of rDCM toolbox
 P        = mfilename('fullpath');
 rDCM_ind = strfind(P,fullfile('rDCM','code'));
-
 
 fprintf('Load data\n')
 Y = load('.temp/in.mat');

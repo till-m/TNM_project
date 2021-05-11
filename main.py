@@ -39,8 +39,7 @@ def call_tapas_rDCM(header, time_series, manual):
     # TODO: Make use of region names.
     to_mat = {
         'y': time_series,
-        'dt': 0.5
-        # header.get_zooms()[-1]  # last value is time between scans in ms
+        'dt': float(header.get_zooms()[-1])  # last value is time between scans in ms
     }
 
     savemat('.temp/in.mat', to_mat)
