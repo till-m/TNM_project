@@ -1,43 +1,21 @@
-"""Expected function call:
-python main.py path/to/file01.nii.gz [path/to/file02.nii.gz ...] [--scheme (harvox | yeo | aal)] [--manual]
-"""
 import os
-import argparse
 import numpy as np
 import nibabel as nib
 from scipy.io import savemat, loadmat
 import data_utils as du
 
-parser = argparse.ArgumentParser()
-parser.add_argument('filepaths',
-                    help='Path(s) to .nii or .nii.gz file(s).',
-                    nargs='+')
-parser.add_argument('--scheme',
-                    default='yeo',
-                    help='Which parcellation scheme to use.')
-parser.add_argument('--manual',
-                    dest='manual',
-                    action='store_true',
-                    help='Run matlab code manually.')
-parser.set_defaults(manual=False)
-
-args = parser.parse_args()
-
-FILEPATHS = args.filepaths  #.split()
-SCHEME = args.scheme
-MANUAL_MATLAB = args.manual
-
 try:
     import matlab.engine
     matlab_engine = matlab.engine.start_matlab()
+    NO_ENGINE = False
 except ImportError:
     print(
         "\n\n\nMatlab Engine API not found. Please execute the matlab script manually when prompted\n\n\n"
     )
-    MANUAL_MATLAB = True
+    NO_ENGINE = True
 
 
-def call_tapas_rDCM(header, time_series):
+def call_tapas_rDCM(header, time_series, manual):
     '''
     Parameters
     ----------
@@ -71,7 +49,7 @@ def call_tapas_rDCM(header, time_series):
     # the script in the future:
     del to_mat
 
-    if MANUAL_MATLAB:
+    if manual or NO_ENGINE:
         print("Please execute the matlab script now.")
         print("After successful execution, press Enter to continue...")
         input()
@@ -85,7 +63,7 @@ def call_tapas_rDCM(header, time_series):
     return rDCM
 
 
-def rDCM_from_fMRI(filepaths):
+def rDCM_from_fMRI(filepaths, scheme='yeo', manual=False):
     '''
     Parameters
     ----------
@@ -105,14 +83,18 @@ def rDCM_from_fMRI(filepaths):
     header0 = images[0].header
 
     # TODO: Make use of region names.
-    time_series = du.parcellation(SCHEME, images[0])[0]
+    time_series = du.parcellation(scheme, images[0])[0]
 
     for img in images[1:]:
-        pi = du.parcellation(SCHEME, img)[0]
+        pi = du.parcellation(scheme, img)[0]
         time_series = du.combine_series(time_series, pi)
 
-    return call_tapas_rDCM(header0, time_series)
+    return call_tapas_rDCM(header0, time_series, manual)
 
 
 if __name__ == '__main__':
-    rDCM_from_fMRI(FILEPATHS)
+    # example call
+    rDCM_from_fMRI(
+        ['path/to/file01.nii.gz', 'path/to/file02.nii.gz'],
+        scheme='yeo',
+    )
