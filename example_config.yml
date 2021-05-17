@@ -1,0 +1,48 @@
+scheme: yeo
+manual: False
+scheme: harvox
+data:
+  sub001_PLCB:
+    id: '001'
+    type: PLCB
+    images:
+      - 'data/sub001_PLCB/file001.nii.gz'
+      - 'data/sub001_PLCB/file003.nii.gz'
+  sub001_LSD:
+    id: '001'
+    type: LSD
+    images:
+      - 'data/sub001_LSD/file001.nii.gz'
+      - 'data/sub001_LSD/file003.nii.gz'
+  sub002_PLCB:
+    id: '002'
+    type: PLCB
+    images:
+      - 'data/sub002_PLCB/file001.nii.gz'
+      - 'data/sub002_PLCB/file003.nii.gz'
+  sub002_LSD:
+    id: '002'
+    type: LSD
+    images:
+      - 'data/sub002_LSD/file001.nii.gz'
+      - 'data/sub002_LSD/file003.nii.gz'
+  sub101_SCZ:
+    id: '101':
+    type: SCZ
+    images:
+      - 'data/sub101_SCZ/file001.nii.gz'
+  sub102_SCZ:
+    id: '102'
+    type: SCZ
+    images:
+      - 'data/sub102_SCZ/file001.nii.gz'
+  sub301_CTRL:
+    id: '301'
+    type: CTRL
+    images:
+      - 'data/sub301_CTRL/file001.nii.gz'
+  - sub302_CTRL:
+    id: '302'
+    type: CTRL
+    images:
+      - 'data/sub102_SCZ/file001.nii.gz'

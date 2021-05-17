@@ -1,0 +1,184 @@
+scheme: yeo
+manual: False
+scheme: yeo
+data:
+  sub001_PLCB:
+    id: '001'
+    type: PLCB
+    images:
+      - 'data/ds003059/sub-001/ses-PLCB/func/sub-001_ses-PLCB_task-rest_run-01_bold.nii.gz'
+      - 'data/ds003059/sub-001/ses-PLCB/func/sub-001_ses-PLCB_task-rest_run-01_bold.nii.gz'
+  sub001_LSD:
+    id: '001'
+    type: LSD
+    images:
+      - 'data/ds003059/sub-001/ses-LSD/func/sub-001_ses-LSD_task-rest_run-01_bold.nii.gz'
+      - 'data/ds003059/sub-001/ses-LSD/func/sub-001_ses-LSD_task-rest_run-01_bold.nii.gz'
+  sub002_PLCB:
+    id: '002'
+    type: PLCB
+    images:
+      - 'data/ds003059/sub-002/ses-PLCB/func/sub-002_ses-PLCB_task-rest_run-01_bold.nii.gz'
+      - 'data/ds003059/sub-002/ses-PLCB/func/sub-002_ses-PLCB_task-rest_run-01_bold.nii.gz'
+  sub002_LSD:
+    id: '002'
+    type: LSD
+    images:
+      - 'data/ds003059/sub-002/ses-LSD/func/sub-002_ses-LSD_task-rest_run-01_bold.nii.gz'
+      - 'data/ds003059/sub-002/ses-LSD/func/sub-002_ses-LSD_task-rest_run-01_bold.nii.gz'
+  sub003_PLCB:
+    id: '003'
+    type: PLCB
+    images:
+      - 'data/ds003059/sub-003/ses-PLCB/func/sub-003_ses-PLCB_task-rest_run-01_bold.nii'
+      - 'data/ds003059/sub-003/ses-PLCB/func/sub-003_ses-PLCB_task-rest_run-01_bold.nii'
+  sub003_LSD:
+    id: '003'
+    type: LSD
+    images:
+      - 'data/ds003059/sub-003/ses-LSD/func/sub-003_ses-LSD_task-rest_run-01_bold.nii'
+      - 'data/ds003059/sub-003/ses-LSD/func/sub-003_ses-LSD_task-rest_run-01_bold.nii'
+  sub004_PLCB:
+    id: '004'
+    type: PLCB
+    images:
+      - 'data/ds003059/sub-004/ses-PLCB/func/sub-004_ses-PLCB_task-rest_run-01_bold.nii'
+      - 'data/ds003059/sub-004/ses-PLCB/func/sub-004_ses-PLCB_task-rest_run-01_bold.nii'
+  sub004_LSD:
+    id: '004'
+    type: LSD
+    images:
+      - 'data/ds003059/sub-004/ses-LSD/func/sub-004_ses-LSD_task-rest_run-01_bold.nii'
+      - 'data/ds003059/sub-004/ses-LSD/func/sub-004_ses-LSD_task-rest_run-01_bold.nii'
+  sub006_PLCB:
+    id: '006'
+    type: PLCB
+    images:
+      - 'data/ds003059/sub-006/ses-PLCB/func/sub-006_ses-PLCB_task-rest_run-01_bold.nii'
+      - 'data/ds003059/sub-006/ses-PLCB/func/sub-006_ses-PLCB_task-rest_run-01_bold.nii'
+  sub006_LSD:
+    id: '006'
+    type: LSD
+    images:
+      - 'data/ds003059/sub-006/ses-LSD/func/sub-006_ses-LSD_task-rest_run-01_bold.nii'
+      - 'data/ds003059/sub-006/ses-LSD/func/sub-006_ses-LSD_task-rest_run-01_bold.nii'
+  sub009_PLCB:
+    id: '009'
+    type: PLCB
+    images:
+      - 'data/ds003059/sub-009/ses-PLCB/func/sub-009_ses-PLCB_task-rest_run-01_bold.nii'
+      - 'data/ds003059/sub-009/ses-PLCB/func/sub-009_ses-PLCB_task-rest_run-01_bold.nii'
+  sub009_LSD:
+    id: '009'
+    type: LSD
+    images:
+      - 'data/ds003059/sub-009/ses-LSD/func/sub-009_ses-LSD_task-rest_run-01_bold.nii'
+      - 'data/ds003059/sub-009/ses-LSD/func/sub-009_ses-LSD_task-rest_run-01_bold.nii'
+  sub010_PLCB:
+    id: '010'
+    type: PLCB
+    images:
+      - 'data/ds003059/sub-010/ses-PLCB/func/sub-010_ses-PLCB_task-rest_run-01_bold.nii'
+      - 'data/ds003059/sub-010/ses-PLCB/func/sub-010_ses-PLCB_task-rest_run-01_bold.nii'
+  sub010_LSD:
+    id: '010'
+    type: LSD
+    images:
+      - 'data/ds003059/sub-010/ses-LSD/func/sub-010_ses-LSD_task-rest_run-01_bold.nii'
+      - 'data/ds003059/sub-010/ses-LSD/func/sub-010_ses-LSD_task-rest_run-01_bold.nii'
+  sub011_PLCB:
+    id: '011'
+    type: PLCB
+    images:
+      - 'data/ds003059/sub-011/ses-PLCB/func/sub-011_ses-PLCB_task-rest_run-01_bold.nii'
+      - 'data/ds003059/sub-011/ses-PLCB/func/sub-011_ses-PLCB_task-rest_run-01_bold.nii'
+  sub011_LSD:
+    id: '011'
+    type: LSD
+    images:
+      - 'data/ds003059/sub-011/ses-LSD/func/sub-011_ses-LSD_task-rest_run-01_bold.nii'
+      - 'data/ds003059/sub-011/ses-LSD/func/sub-011_ses-LSD_task-rest_run-01_bold.nii'
+  sub012_PLCB:
+    id: '012'
+    type: PLCB
+    images:
+      - 'data/ds003059/sub-012/ses-PLCB/func/sub-012_ses-PLCB_task-rest_run-01_bold.nii'
+      - 'data/ds003059/sub-012/ses-PLCB/func/sub-012_ses-PLCB_task-rest_run-01_bold.nii'
+  sub012_LSD:
+    id: '012'
+    type: LSD
+    images:
+      - 'data/ds003059/sub-012/ses-LSD/func/sub-012_ses-LSD_task-rest_run-01_bold.nii'
+      - 'data/ds003059/sub-012/ses-LSD/func/sub-012_ses-LSD_task-rest_run-01_bold.nii'
+  sub013_PLCB:
+    id: '013'
+    type: PLCB
+    images:
+      - 'data/ds003059/sub-013/ses-PLCB/func/sub-013_ses-PLCB_task-rest_run-01_bold.nii'
+      - 'data/ds003059/sub-013/ses-PLCB/func/sub-013_ses-PLCB_task-rest_run-01_bold.nii'
+  sub013_LSD:
+    id: '013'
+    type: LSD
+    images:
+      - 'data/ds003059/sub-013/ses-LSD/func/sub-013_ses-LSD_task-rest_run-01_bold.nii'
+      - 'data/ds003059/sub-013/ses-LSD/func/sub-013_ses-LSD_task-rest_run-01_bold.nii'
+  sub015_PLCB:
+    id: '015'
+    type: PLCB
+    images:
+      - 'data/ds003059/sub-015/ses-PLCB/func/sub-015_ses-PLCB_task-rest_run-01_bold.nii'
+      - 'data/ds003059/sub-015/ses-PLCB/func/sub-015_ses-PLCB_task-rest_run-01_bold.nii'
+  sub015_LSD:
+    id: '015'
+    type: LSD
+    images:
+      - 'data/ds003059/sub-015/ses-LSD/func/sub-015_ses-LSD_task-rest_run-01_bold.nii'
+      - 'data/ds003059/sub-015/ses-LSD/func/sub-015_ses-LSD_task-rest_run-01_bold.nii'
+  sub017_PLCB:
+    id: '017'
+    type: PLCB
+    images:
+      - 'data/ds003059/sub-017/ses-PLCB/func/sub-017_ses-PLCB_task-rest_run-01_bold.nii'
+      - 'data/ds003059/sub-017/ses-PLCB/func/sub-017_ses-PLCB_task-rest_run-01_bold.nii'
+  sub017_LSD:
+    id: '017'
+    type: LSD
+    images:
+      - 'data/ds003059/sub-017/ses-LSD/func/sub-017_ses-LSD_task-rest_run-01_bold.nii'
+      - 'data/ds003059/sub-017/ses-LSD/func/sub-017_ses-LSD_task-rest_run-01_bold.nii'
+  sub018_PLCB:
+    id: '018'
+    type: PLCB
+    images:
+      - 'data/ds003059/sub-018/ses-PLCB/func/sub-018_ses-PLCB_task-rest_run-01_bold.nii'
+      - 'data/ds003059/sub-018/ses-PLCB/func/sub-018_ses-PLCB_task-rest_run-01_bold.nii'
+  sub018_LSD:
+    id: '018'
+    type: LSD
+    images:
+      - 'data/ds003059/sub-018/ses-LSD/func/sub-018_ses-LSD_task-rest_run-01_bold.nii'
+      - 'data/ds003059/sub-018/ses-LSD/func/sub-018_ses-LSD_task-rest_run-01_bold.nii'
+  sub019_PLCB:
+    id: '019'
+    type: PLCB
+    images:
+      - 'data/ds003059/sub-019/ses-PLCB/func/sub-019_ses-PLCB_task-rest_run-01_bold.nii'
+      - 'data/ds003059/sub-019/ses-PLCB/func/sub-019_ses-PLCB_task-rest_run-01_bold.nii'
+  sub019_LSD:
+    id: '019'
+    type: LSD
+    images:
+      - 'data/ds003059/sub-019/ses-LSD/func/sub-019_ses-LSD_task-rest_run-01_bold.nii'
+      - 'data/ds003059/sub-019/ses-LSD/func/sub-019_ses-LSD_task-rest_run-01_bold.nii'
+  sub020_PLCB:
+    id: '020'
+    type: PLCB
+    images:
+      - 'data/ds003059/sub-020/ses-PLCB/func/sub-020_ses-PLCB_task-rest_run-01_bold.nii'
+      - 'data/ds003059/sub-020/ses-PLCB/func/sub-020_ses-PLCB_task-rest_run-01_bold.nii'
+  sub020_LSD:
+    id: '020'
+    type: LSD
+    images:
+      - 'data/ds003059/sub-020/ses-LSD/func/sub-020_ses-LSD_task-rest_run-01_bold.nii'
+      - 'data/ds003059/sub-020/ses-LSD/func/sub-020_ses-LSD_task-rest_run-01_bold.nii'
