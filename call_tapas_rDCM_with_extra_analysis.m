@@ -207,7 +207,11 @@ for i = 1:20
     temp = zeros(1,48*48);
     for j = 1:48*48
         [h,p] = ttest2(final((r_ind-1)*48 + columns(i),:), final(j,:));
-        temp(j) = h;
+        if (r_ind-1)*48 + columns(i) == j
+            temp(j) = 100;
+        else
+            temp(j) = h;
+        end
         %p_lst(i,j+1) = p;
     end
     h_lst(r_ind,columns(i)) = mode(temp);
