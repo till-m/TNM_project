@@ -42,7 +42,8 @@ def call_tapas_rDCM(header, time_series, region_labels, meta, manual):
         pass
 
     if meta is None:
-        meta = {'name': 'out'}
+        meta = {'name': 'out',
+                'scheme': 'unknown'}
 
     # TODO: Make use of region names.
     to_mat = {

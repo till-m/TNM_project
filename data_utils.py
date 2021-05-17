@@ -62,7 +62,7 @@ def make_masker(scheme):
                                    standardize=True,
                                    high_variance_confounds=True,
                                    verbose=1)
-        labels = []  #list(np.arange(0, time_series.shape[1] + 1))
+        labels = list(np.arange(1, 18))
     elif scheme.lower() == "aal":  # 116 regions
         dataset = datasets.fetch_atlas_aal(version='SPM12')
         labels = ["Background"] + dataset['labels']

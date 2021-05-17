@@ -10,7 +10,7 @@ in_mat = load('.temp/in.mat');
 
 meta=in_mat.meta;
 Y=in_mat.Y;
-
+meta.regions = Y.name;
 
 % get time
 currentTimer = tic;
@@ -37,8 +37,10 @@ toc(currentTimer)
 
 
 %% Export results.
-out.meta = meta;
-out.A = rDCM_output.Ep.A;
-fprintf('Saving to .temp/\n')
-save(strcat('.temp/',meta.name), 'out')
+A = rDCM_output.Ep.A;
+
+folder_path = "output_DCM/" + meta.scheme;
+mkdir(folder_path);
+fprintf("Saving to " + folder_path);
+save(folder_path + "/" + meta.name, 'meta', 'A')
 

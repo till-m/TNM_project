@@ -2,4 +2,5 @@ data/ds003059/
 .temp/
 __pycache__/
 nilearn_cache/
+output_DCM/
 
