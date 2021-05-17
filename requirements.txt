@@ -4,4 +4,7 @@ scipy
 pandas
 nilearn
 matplotlib
+pyyaml
+progressbar2
+
 

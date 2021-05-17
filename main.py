@@ -1,4 +1,4 @@
-import yaml  # pip install pyyaml
+import yaml
 from process import batch_rDCM_from_fMRI
 
 with open('config.yml') as config_file:

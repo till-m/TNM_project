@@ -3,6 +3,7 @@ import numpy as np
 import nibabel as nib
 from scipy.io import savemat, loadmat
 import data_utils as du
+from progressbar import progressbar
 
 try:
     import matlab.engine
@@ -118,8 +119,7 @@ def batch_rDCM_from_fMRI(scheme_name, manual, data):
         )
 
     scheme = du.make_masker(scheme_name)
-    for key in data:
-        ic(data[key])
+    for key in progressbar(data, redirect_stdout=True):
         meta = {
             'name': key,
             'id': data[key]['id'],
