@@ -34,19 +34,17 @@ def load_data(path_name):
     return (bold_data, bold_data_df)
 
 
-def parcellation(scheme, data):
+def make_masker(scheme):
     '''
     Parameters
     ----------
     scheme : String
         The type of parcellation wanted.
-    data : Nifti1Image
-        The data directly loaded, not the extracted one.
 
     Returns
     -------
-    time_series: array
-        Time series of the signal in each region (reduce the region with mean).
+    masker: nilearn.input_data.NiftiLabelsMasker
+        Masker of the chosen scheme.
     labels: list
         Labels of all the regions in parcellation.
     '''
@@ -58,20 +56,13 @@ def parcellation(scheme, data):
                                    standardize=True,
                                    high_variance_confounds=True,
                                    verbose=1)
-        time_series = masker.fit_transform(data)
-        print("Using the Harvard-Oxford parcellations, there are {} regions.".
-              format(time_series.shape[1]))
     elif scheme.lower() == "yeo":  # 17 regions
         dataset = datasets.fetch_atlas_yeo_2011()
         masker = NiftiLabelsMasker(labels_img=dataset['thick_17'],
                                    standardize=True,
                                    high_variance_confounds=True,
                                    verbose=1)
-        time_series = masker.fit_transform(data)
-        labels = list(np.arange(0, time_series.shape[1] + 1))
-        print("Using the Yeo 2011 parcellation, there are {} regions.".format(
-            time_series.shape[1]))
-
+        labels = []  #list(np.arange(0, time_series.shape[1] + 1))
     elif scheme.lower() == "aal":  # 116 regions
         dataset = datasets.fetch_atlas_aal(version='SPM12')
         labels = ["Background"] + dataset['labels']
@@ -79,11 +70,29 @@ def parcellation(scheme, data):
                                    standardize=True,
                                    high_variance_confounds=True,
                                    verbose=1)
-        time_series = masker.fit_transform(data)
-        print("Using the AAL parcellation, there are {} regions.".format(
-            time_series.shape[1]))
-    print(time_series.shape)
-    return time_series, labels
+    return masker, labels
+
+
+def parcellation(masker, data):
+    '''
+    Parameters
+    ----------
+    masker: nilearn.input_data.NiftiLabelsMasker
+        Masker to use.
+    data : Nifti1Image
+        The data directly loaded, not the extracted one.
+
+    Returns
+    -------
+    time_series: array
+        Time series of the signal in each region (reduce the region with mean).
+    '''
+
+    time_series = masker.fit_transform(data)
+    print(
+        f"Using the chosen parcellation scheme, there are {time_series.shape[1]} regions with {time_series.shape[0]} datapoints each."
+    )
+    return time_series
 
 
 def combine_series(time_series_1, time_series_2):

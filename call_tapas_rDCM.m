@@ -6,17 +6,21 @@ P        = mfilename('fullpath');
 rDCM_ind = strfind(P,fullfile('rDCM','code'));
 
 fprintf('Load data\n')
-Y = load('.temp/in.mat');
+in_mat = load('.temp/in.mat');
+
+meta=in_mat.meta;
+Y=in_mat.Y;
+
 
 % get time
 currentTimer = tic;
 DCM = tapas_rdcm_model_specification(Y, [], []);
 
-disp(DCM)
+%disp(DCM)
 
 type = 'r';
 methods = 1;
-[output, options] = tapas_rdcm_estimate(DCM, type, methods=methods);
+[rDCM_output, options] = tapas_rdcm_estimate(DCM, type, methods=methods);
 
 % output elapsed time
 toc(currentTimer)
@@ -29,10 +33,12 @@ toc(currentTimer)
 %plot_regions = [1 12];
 
 % visualize the results
-%tapas_rdcm_visualize(output, DCM, options, plot_regions, 1)
+%tapas_rdcm_visualize(rDCM_output, DCM, options, plot_regions, 1)
 
 
 %% Export results.
-fprintf('Save to .temp/')
-save('.temp/out.mat', 'output')
+out.meta = meta;
+out.A = rDCM_output.Ep.A;
+fprintf('Saving to .temp/\n')
+save(strcat('.temp/',meta.name), 'out')
 

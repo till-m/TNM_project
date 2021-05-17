@@ -4,7 +4,7 @@ Expected function call:
 python main.py path/to/file01.nii.gz [path/to/file02.nii.gz ...] [--scheme (harvox | yeo | aal)] [--manual]
 """
 import argparse
-from main import rDCM_from_fMRI
+from process import rDCM_from_fMRI
 
 parser = argparse.ArgumentParser()
 parser.add_argument('filepaths',
@@ -21,8 +21,7 @@ parser.set_defaults(manual=False)
 
 args = parser.parse_args()
 
-FILEPATHS = args.filepaths
-SCHEME = args.scheme
-MANUAL = args.manual
-
-rDCM_from_fMRI(FILEPATHS, SCHEME, MANUAL)
+filepaths = args.filepaths
+scheme_name = args.scheme
+manual = args.manual
+rDCM_from_fMRI(filepaths, meta=None, scheme=scheme_name, manual=manual)

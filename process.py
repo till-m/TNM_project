@@ -15,7 +15,7 @@ except ImportError:
     NO_ENGINE = True
 
 
-def call_tapas_rDCM(header, time_series, manual):
+def call_tapas_rDCM(header, time_series, region_labels, meta, manual):
     '''
     Parameters
     ----------
@@ -24,6 +24,10 @@ def call_tapas_rDCM(header, time_series, manual):
     time_series : numpy.ndarray
         2-dimensional array of shape (time_steps, regions) containg BOLD signal
         data.
+    region_labels: List of strings
+        Contains the names of regions.
+    meta: dict
+        Meta information to save alongside the data.
 
     Returns
     -------
@@ -36,10 +40,18 @@ def call_tapas_rDCM(header, time_series, manual):
     except FileExistsError:
         pass
 
+    if meta is None:
+        meta = {'name': 'out'}
+
     # TODO: Make use of region names.
     to_mat = {
-        'y': time_series,
-        'dt': float(header.get_zooms()[-1])  # last value is time between scans in ms
+        'meta': meta,
+        'Y': {
+            'y': time_series,
+            'dt': float(header.get_zooms()
+                        [-1]),  # last value is time between scans in ms
+            'name': region_labels
+        }
     }
 
     savemat('.temp/in.mat', to_mat)
@@ -56,18 +68,22 @@ def call_tapas_rDCM(header, time_series, manual):
         # call matlab script
         matlab_engine.call_tapas_rDCM(nargout=0)
 
-    rDCM = loadmat('.temp/out.mat')
-    print("\nSuccesfully loaded rDCM output.")
-    # TODO: figure out whether to delete .temp/
-    return rDCM
+    # not necessary since we're doing analysis in matlab:
+
+    # rDCM = loadmat(f'.temp/{meta['name']}.mat')
+    # print("\nSuccesfully loaded rDCM output.")
+    # # TODO: figure out whether to delete .temp/
+    # return rDCM
 
 
-def rDCM_from_fMRI(filepaths, scheme='yeo', manual=False):
+def rDCM_from_fMRI(filepaths, meta=None, scheme='yeo', manual=False):
     '''
     Parameters
     ----------
     filepaths : list
         List of paths pointing to .nii or .nii.gz files to use for rDCM.
+    scheme: String or tuple
+        Scheme to use for parcellation.
 
     Returns
     -------
@@ -76,19 +92,44 @@ def rDCM_from_fMRI(filepaths, scheme='yeo', manual=False):
 
     '''
     images = []
+
     for path in filepaths:
         images.append(nib.load(path))
 
     header0 = images[0].header
 
-    # TODO: Make use of region names.
-    time_series = du.parcellation(scheme, images[0])[0]
+    if type(scheme) == str:  # if scheme isn't a masker already, make it one.
+        scheme = du.make_masker(scheme)
+    masker, region_labels = scheme
 
+    # TODO: Make use of region names.
+    time_series = du.parcellation(masker, images[0])
     for img in images[1:]:
-        pi = du.parcellation(scheme, img)[0]
+        pi = du.parcellation(masker, img)
         time_series = du.combine_series(time_series, pi)
 
-    return call_tapas_rDCM(header0, time_series, manual)
+    return call_tapas_rDCM(header0, time_series, region_labels, meta, manual)
+
+
+def batch_rDCM_from_fMRI(scheme_name, manual, data):
+    if manual == True:
+        print(
+            "Warning: Using batch and manual mode simultaneously is antithetical."
+        )
+
+    scheme = du.make_masker(scheme_name)
+    for key in data:
+        ic(data[key])
+        meta = {
+            'name': key,
+            'id': data[key]['id'],
+            'scheme': scheme_name,
+            'type': data[key]['type'],
+        }
+        rDCM_from_fMRI(data[key]['images'],
+                       meta=meta,
+                       scheme=scheme,
+                       manual=manual)
 
 
 if __name__ == '__main__':
