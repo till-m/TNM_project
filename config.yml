@@ -1,7 +1,7 @@
 scheme: yeo
 manual: False
-scheme: yeo
 data:
+  # LSD/PLCB data
   sub001_PLCB:
     id: '001'
     type: PLCB
@@ -182,3 +182,185 @@ data:
     images:
       - 'data/ds003059/sub-020/ses-LSD/func/sub-020_ses-LSD_task-rest_run-01_bold.nii.gz'
       - 'data/ds003059/sub-020/ses-LSD/func/sub-020_ses-LSD_task-rest_run-01_bold.nii.gz'
+  # SCZ data
+  sub101_SCZ:
+    id: '101'
+    type: 'SCZ'
+    images:
+      - 'data/ds001461/sub-101/func/sub-101_task-rest_bold.nii.gz'
+  sub102_SCZ:
+    id: '102'
+    type: 'SCZ'
+    images:
+      - 'data/ds001461/sub-102/func/sub-102_task-rest_bold.nii.gz'
+  sub103_SCZ:
+    id: '103'
+    type: 'SCZ'
+    images:
+      - 'data/ds001461/sub-103/func/sub-103_task-rest_bold.nii.gz'
+  sub104_SCZ:
+    id: '104'
+    type: 'SCZ'
+    images:
+      - 'data/ds001461/sub-104/func/sub-104_task-rest_bold.nii.gz'
+  sub105_SCZ:
+    id: '105'
+    type: 'SCZ'
+    images:
+      - 'data/ds001461/sub-105/func/sub-105_task-rest_bold.nii.gz'
+  sub106_SCZ:
+    id: '106'
+    type: 'SCZ'
+    images:
+      - 'data/ds001461/sub-106/func/sub-106_task-rest_bold.nii.gz'
+  sub107_SCZ:
+    id: '107'
+    type: 'SCZ'
+    images:
+      - 'data/ds001461/sub-107/func/sub-107_task-rest_bold.nii.gz'
+  sub108_SCZ:
+    id: '108'
+    type: 'SCZ'
+    images:
+      - 'data/ds001461/sub-108/func/sub-108_task-rest_bold.nii.gz'
+  sub109_SCZ:
+    id: '109'
+    type: 'SCZ'
+    images:
+      - 'data/ds001461/sub-109/func/sub-109_task-rest_bold.nii.gz'
+  sub110_SCZ:
+    id: '110'
+    type: 'SCZ'
+    images:
+      - 'data/ds001461/sub-110/func/sub-110_task-rest_bold.nii.gz'
+  sub111_SCZ:
+    id: '111'
+    type: 'SCZ'
+    images:
+      - 'data/ds001461/sub-111/func/sub-111_task-rest_bold.nii.gz'
+  sub112_SCZ:
+    id: '112'
+    type: 'SCZ'
+    images:
+      - 'data/ds001461/sub-112/func/sub-112_task-rest_bold.nii.gz'
+  sub113_SCZ:
+    id: '113'
+    type: 'SCZ'
+    images:
+      - 'data/ds001461/sub-113/func/sub-113_task-rest_bold.nii.gz'
+  sub114_SCZ:
+    id: '114'
+    type: 'SCZ'
+    images:
+      - 'data/ds001461/sub-114/func/sub-114_task-rest_bold.nii.gz'
+  sub115_SCZ:
+    id: '115'
+    type: 'SCZ'
+    images:
+      - 'data/ds001461/sub-115/func/sub-115_task-rest_bold.nii.gz'
+  sub116_SCZ:
+    id: '116'
+    type: 'SCZ'
+    images:
+      - 'data/ds001461/sub-116/func/sub-116_task-rest_bold.nii.gz'
+  sub117_SCZ:
+    id: '117'
+    type: 'SCZ'
+    images:
+      - 'data/ds001461/sub-117/func/sub-117_task-rest_bold.nii.gz'
+  sub118_SCZ:
+    id: '118'
+    type: 'SCZ'
+    images:
+      - 'data/ds001461/sub-118/func/sub-118_task-rest_bold.nii.gz'
+  sub119_SCZ:
+    id: '119'
+    type: 'SCZ'
+    images:
+      - 'data/ds001461/sub-119/func/sub-119_task-rest_bold.nii.gz'
+  sub120_SCZ:
+    id: '120'
+    type: 'SCZ'
+    images:
+      - 'data/ds001461/sub-120/func/sub-120_task-rest_bold.nii.gz'
+  sub121_SCZ:
+    id: '121'
+    type: 'SCZ'
+    images:
+      - 'data/ds001461/sub-121/func/sub-121_task-rest_bold.nii.gz'
+  sub122_SCZ:
+    id: '122'
+    type: 'SCZ'
+    images:
+      - 'data/ds001461/sub-122/func/sub-122_task-rest_bold.nii.gz'
+  sub123_SCZ:
+    id: '123'
+    type: 'SCZ'
+    images:
+      - 'data/ds001461/sub-123/func/sub-123_task-rest_bold.nii.gz'
+  sub124_SCZ:
+    id: '124'
+    type: 'SCZ'
+    images:
+      - 'data/ds001461/sub-124/func/sub-124_task-rest_bold.nii.gz'
+  sub125_SCZ:
+    id: '125'
+    type: 'SCZ'
+    images:
+      - 'data/ds001461/sub-125/func/sub-125_task-rest_bold.nii.gz'
+  # CTRL data
+  sub301_CTRL:
+    id: '301'
+    type: 'CTRL'
+    images:
+      - 'data/ds001461/sub-301/func/sub-301_task-rest_bold.nii.gz'
+  sub302_CTRL:
+    id: '302'
+    type: 'CTRL'
+    images:
+      - 'data/ds001461/sub-302/func/sub-302_task-rest_bold.nii.gz'
+  sub303_CTRL:
+    id: '303'
+    type: 'CTRL'
+    images:
+      - 'data/ds001461/sub-303/func/sub-303_task-rest_bold.nii.gz'
+  sub304_CTRL:
+    id: '304'
+    type: 'CTRL'
+    images:
+      - 'data/ds001461/sub-304/func/sub-304_task-rest_bold.nii.gz'
+  sub305_CTRL:
+    id: '305'
+    type: 'CTRL'
+    images:
+      - 'data/ds001461/sub-305/func/sub-305_task-rest_bold.nii.gz'
+  sub306_CTRL:
+    id: '306'
+    type: 'CTRL'
+    images:
+      - 'data/ds001461/sub-306/func/sub-306_task-rest_bold.nii.gz'
+  sub307_CTRL:
+    id: '307'
+    type: 'CTRL'
+    images:
+      - 'data/ds001461/sub-307/func/sub-307_task-rest_bold.nii.gz'
+  sub308_CTRL:
+    id: '308'
+    type: 'CTRL'
+    images:
+      - 'data/ds001461/sub-308/func/sub-308_task-rest_bold.nii.gz'
+  sub309_CTRL:
+    id: '309'
+    type: 'CTRL'
+    images:
+      - 'data/ds001461/sub-309/func/sub-309_task-rest_bold.nii.gz'
+  sub310_CTRL:
+    id: '310'
+    type: 'CTRL'
+    images:
+      - 'data/ds001461/sub-310/func/sub-310_task-rest_bold.nii.gz'
+  sub311_CTRL:
+    id: '311'
+    type: 'CTRL'
+    images:
+      - 'data/ds001461/sub-311/func/sub-311_task-rest_bold.nii.gz'
