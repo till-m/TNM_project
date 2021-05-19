@@ -1,6 +1,5 @@
 scheme: yeo
 manual: False
-scheme: yeo
 data:
   # LSD/PLCB data
   sub001_PLCB:
