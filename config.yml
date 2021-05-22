@@ -183,184 +183,503 @@ data:
       - 'data/ds003059/sub-020/ses-LSD/func/sub-020_ses-LSD_task-rest_run-01_bold.nii.gz'
       - 'data/ds003059/sub-020/ses-LSD/func/sub-020_ses-LSD_task-rest_run-03_bold.nii.gz'
   # SCZ data
-  sub101_SCZ:
-    id: '101'
+sub10159_SCZ:
+    id: '10159'
     type: 'SCZ'
     images:
-      - 'data/ds001461/sub-101/func/sub-101_task-rest_bold.nii.gz'
-  sub102_SCZ:
-    id: '102'
+      - 'data/ds000030/sub-10159/func/sub-10159_task-rest_bold.nii.gz'
+  sub10171_SCZ:
+    id: '10171'
     type: 'SCZ'
     images:
-      - 'data/ds001461/sub-102/func/sub-102_task-rest_bold.nii.gz'
-  sub103_SCZ:
-    id: '103'
+      - 'data/ds000030/sub-10171/func/sub-10171_task-rest_bold.nii.gz'
+  sub10189_SCZ:
+    id: '10189'
     type: 'SCZ'
     images:
-      - 'data/ds001461/sub-103/func/sub-103_task-rest_bold.nii.gz'
-  sub104_SCZ:
-    id: '104'
+      - 'data/ds000030/sub-10189/func/sub-10189_task-rest_bold.nii.gz'
+  sub10206_SCZ:
+    id: '10206'
     type: 'SCZ'
     images:
-      - 'data/ds001461/sub-104/func/sub-104_task-rest_bold.nii.gz'
-  sub105_SCZ:
-    id: '105'
+      - 'data/ds000030/sub-10206/func/sub-10206_task-rest_bold.nii.gz'
+  sub10217_SCZ:
+    id: '10217'
     type: 'SCZ'
     images:
-      - 'data/ds001461/sub-105/func/sub-105_task-rest_bold.nii.gz'
-  sub106_SCZ:
-    id: '106'
+      - 'data/ds000030/sub-10217/func/sub-10217_task-rest_bold.nii.gz'
+  sub10225_SCZ:
+    id: '10225'
     type: 'SCZ'
     images:
-      - 'data/ds001461/sub-106/func/sub-106_task-rest_bold.nii.gz'
-  sub107_SCZ:
-    id: '107'
+      - 'data/ds000030/sub-10225/func/sub-10225_task-rest_bold.nii.gz'
+  sub10227_SCZ:
+    id: '10227'
     type: 'SCZ'
     images:
-      - 'data/ds001461/sub-107/func/sub-107_task-rest_bold.nii.gz'
-  sub108_SCZ:
-    id: '108'
+      - 'data/ds000030/sub-10227/func/sub-10227_task-rest_bold.nii.gz'
+  sub10228_SCZ:
+    id: '10228'
     type: 'SCZ'
     images:
-      - 'data/ds001461/sub-108/func/sub-108_task-rest_bold.nii.gz'
-  sub109_SCZ:
-    id: '109'
+      - 'data/ds000030/sub-10228/func/sub-10228_task-rest_bold.nii.gz'
+  sub10235_SCZ:
+    id: '10235'
     type: 'SCZ'
     images:
-      - 'data/ds001461/sub-109/func/sub-109_task-rest_bold.nii.gz'
-  sub110_SCZ:
-    id: '110'
+      - 'data/ds000030/sub-10235/func/sub-10235_task-rest_bold.nii.gz'
+  sub10249_SCZ:
+    id: '10249'
     type: 'SCZ'
     images:
-      - 'data/ds001461/sub-110/func/sub-110_task-rest_bold.nii.gz'
-  sub111_SCZ:
-    id: '111'
+      - 'data/ds000030/sub-10249/func/sub-10249_task-rest_bold.nii.gz'
+  sub10269_SCZ:
+    id: '10269'
     type: 'SCZ'
     images:
-      - 'data/ds001461/sub-111/func/sub-111_task-rest_bold.nii.gz'
-  sub112_SCZ:
-    id: '112'
+      - 'data/ds000030/sub-10269/func/sub-10269_task-rest_bold.nii.gz'
+  sub10271_SCZ:
+    id: '10271'
     type: 'SCZ'
     images:
-      - 'data/ds001461/sub-112/func/sub-112_task-rest_bold.nii.gz'
-  sub113_SCZ:
-    id: '113'
+      - 'data/ds000030/sub-10271/func/sub-10271_task-rest_bold.nii.gz'
+  sub10273_SCZ:
+    id: '10273'
     type: 'SCZ'
     images:
-      - 'data/ds001461/sub-113/func/sub-113_task-rest_bold.nii.gz'
-  sub114_SCZ:
-    id: '114'
+      - 'data/ds000030/sub-10273/func/sub-10273_task-rest_bold.nii.gz'
+  sub10274_SCZ:
+    id: '10274'
     type: 'SCZ'
     images:
-      - 'data/ds001461/sub-114/func/sub-114_task-rest_bold.nii.gz'
-  sub115_SCZ:
-    id: '115'
+      - 'data/ds000030/sub-10274/func/sub-10274_task-rest_bold.nii.gz'
+  sub10280_SCZ:
+    id: '10280'
     type: 'SCZ'
     images:
-      - 'data/ds001461/sub-115/func/sub-115_task-rest_bold.nii.gz'
-  sub116_SCZ:
-    id: '116'
+      - 'data/ds000030/sub-10280/func/sub-10280_task-rest_bold.nii.gz'
+  sub10290_SCZ:
+    id: '10290'
     type: 'SCZ'
     images:
-      - 'data/ds001461/sub-116/func/sub-116_task-rest_bold.nii.gz'
-  sub117_SCZ:
-    id: '117'
+      - 'data/ds000030/sub-10290/func/sub-10290_task-rest_bold.nii.gz'
+  sub10292_SCZ:
+    id: '10292'
     type: 'SCZ'
     images:
-      - 'data/ds001461/sub-117/func/sub-117_task-rest_bold.nii.gz'
-  sub118_SCZ:
-    id: '118'
+      - 'data/ds000030/sub-10292/func/sub-10292_task-rest_bold.nii.gz'
+  sub10299_SCZ:
+    id: '10299'
     type: 'SCZ'
     images:
-      - 'data/ds001461/sub-118/func/sub-118_task-rest_bold.nii.gz'
-  sub119_SCZ:
-    id: '119'
+      - 'data/ds000030/sub-10299/func/sub-10299_task-rest_bold.nii.gz'
+  sub10304_SCZ:
+    id: '10304'
     type: 'SCZ'
     images:
-      - 'data/ds001461/sub-119/func/sub-119_task-rest_bold.nii.gz'
-  sub120_SCZ:
-    id: '120'
+      - 'data/ds000030/sub-10304/func/sub-10304_task-rest_bold.nii.gz'
+  sub10316_SCZ:
+    id: '10316'
     type: 'SCZ'
     images:
-      - 'data/ds001461/sub-120/func/sub-120_task-rest_bold.nii.gz'
-  sub121_SCZ:
-    id: '121'
+      - 'data/ds000030/sub-10316/func/sub-10316_task-rest_bold.nii.gz'
+  sub10321_SCZ:
+    id: '10321'
     type: 'SCZ'
     images:
-      - 'data/ds001461/sub-121/func/sub-121_task-rest_bold.nii.gz'
-  sub122_SCZ:
-    id: '122'
+      - 'data/ds000030/sub-10321/func/sub-10321_task-rest_bold.nii.gz'
+  sub10325_SCZ:
+    id: '10325'
     type: 'SCZ'
     images:
-      - 'data/ds001461/sub-122/func/sub-122_task-rest_bold.nii.gz'
-  sub123_SCZ:
-    id: '123'
+      - 'data/ds000030/sub-10325/func/sub-10325_task-rest_bold.nii.gz'
+  sub10329_SCZ:
+    id: '10329'
     type: 'SCZ'
     images:
-      - 'data/ds001461/sub-123/func/sub-123_task-rest_bold.nii.gz'
-  sub124_SCZ:
-    id: '124'
+      - 'data/ds000030/sub-10329/func/sub-10329_task-rest_bold.nii.gz'
+  sub10339_SCZ:
+    id: '10339'
     type: 'SCZ'
     images:
-      - 'data/ds001461/sub-124/func/sub-124_task-rest_bold.nii.gz'
-  sub125_SCZ:
-    id: '125'
+      - 'data/ds000030/sub-10339/func/sub-10339_task-rest_bold.nii.gz'
+  sub10340_SCZ:
+    id: '10340'
     type: 'SCZ'
     images:
-      - 'data/ds001461/sub-125/func/sub-125_task-rest_bold.nii.gz'
-  # CTRL data
-  sub301_CTRL:
-    id: '301'
+      - 'data/ds000030/sub-10340/func/sub-10340_task-rest_bold.nii.gz'
+  sub10345_SCZ:
+    id: '10345'
+    type: 'SCZ'
+    images:
+      - 'data/ds000030/sub-10345/func/sub-10345_task-rest_bold.nii.gz'
+  sub10347_SCZ:
+    id: '10347'
+    type: 'SCZ'
+    images:
+      - 'data/ds000030/sub-10347/func/sub-10347_task-rest_bold.nii.gz'
+  sub10356_SCZ:
+    id: '10356'
+    type: 'SCZ'
+    images:
+      - 'data/ds000030/sub-10356/func/sub-10356_task-rest_bold.nii.gz'
+  sub10361_SCZ:
+    id: '10361'
+    type: 'SCZ'
+    images:
+      - 'data/ds000030/sub-10361/func/sub-10361_task-rest_bold.nii.gz'
+  sub10365_SCZ:
+    id: '10365'
+    type: 'SCZ'
+    images:
+      - 'data/ds000030/sub-10365/func/sub-10365_task-rest_bold.nii.gz'
+  sub10376_SCZ:
+    id: '10376'
+    type: 'SCZ'
+    images:
+      - 'data/ds000030/sub-10376/func/sub-10376_task-rest_bold.nii.gz'
+  sub10377_SCZ:
+    id: '10377'
+    type: 'SCZ'
+    images:
+      - 'data/ds000030/sub-10377/func/sub-10377_task-rest_bold.nii.gz'
+  sub10388_SCZ:
+    id: '10388'
+    type: 'SCZ'
+    images:
+      - 'data/ds000030/sub-10388/func/sub-10388_task-rest_bold.nii.gz'
+  sub10428_SCZ:
+    id: '10428'
+    type: 'SCZ'
+    images:
+      - 'data/ds000030/sub-10428/func/sub-10428_task-rest_bold.nii.gz'
+  sub10429_SCZ:
+    id: '10429'
+    type: 'SCZ'
+    images:
+      - 'data/ds000030/sub-10429/func/sub-10429_task-rest_bold.nii.gz'
+  sub10438_SCZ:
+    id: '10438'
+    type: 'SCZ'
+    images:
+      - 'data/ds000030/sub-10438/func/sub-10438_task-rest_bold.nii.gz'
+  sub10440_SCZ:
+    id: '10440'
+    type: 'SCZ'
+    images:
+      - 'data/ds000030/sub-10440/func/sub-10440_task-rest_bold.nii.gz'
+  sub10448_SCZ:
+    id: '10448'
+    type: 'SCZ'
+    images:
+      - 'data/ds000030/sub-10448/func/sub-10448_task-rest_bold.nii.gz'
+  sub10455_SCZ:
+    id: '10455'
+    type: 'SCZ'
+    images:
+      - 'data/ds000030/sub-10455/func/sub-10455_task-rest_bold.nii.gz'
+  sub10460_SCZ:
+    id: '10460'
+    type: 'SCZ'
+    images:
+      - 'data/ds000030/sub-10460/func/sub-10460_task-rest_bold.nii.gz'
+  sub10471_SCZ:
+    id: '10471'
+    type: 'SCZ'
+    images:
+      - 'data/ds000030/sub-10471/func/sub-10471_task-rest_bold.nii.gz'
+  sub10478_SCZ:
+    id: '10478'
+    type: 'SCZ'
+    images:
+      - 'data/ds000030/sub-10478/func/sub-10478_task-rest_bold.nii.gz'
+  sub10487_SCZ:
+    id: '10487'
+    type: 'SCZ'
+    images:
+      - 'data/ds000030/sub-10487/func/sub-10487_task-rest_bold.nii.gz'
+  sub10492_SCZ:
+    id: '10492'
+    type: 'SCZ'
+    images:
+      - 'data/ds000030/sub-10492/func/sub-10492_task-rest_bold.nii.gz'
+  sub10501_SCZ:
+    id: '10501'
+    type: 'SCZ'
+    images:
+      - 'data/ds000030/sub-10501/func/sub-10501_task-rest_bold.nii.gz'
+  sub10506_SCZ:
+    id: '10506'
+    type: 'SCZ'
+    images:
+      - 'data/ds000030/sub-10506/func/sub-10506_task-rest_bold.nii.gz'
+  sub10517_SCZ:
+    id: '10517'
+    type: 'SCZ'
+    images:
+      - 'data/ds000030/sub-10517/func/sub-10517_task-rest_bold.nii.gz'
+  sub10523_SCZ:
+    id: '10523'
+    type: 'SCZ'
+    images:
+      - 'data/ds000030/sub-10523/func/sub-10523_task-rest_bold.nii.gz'
+  sub10524_SCZ:
+    id: '10524'
+    type: 'SCZ'
+    images:
+      - 'data/ds000030/sub-10524/func/sub-10524_task-rest_bold.nii.gz'
+  sub10525_SCZ:
+    id: '10525'
+    type: 'SCZ'
+    images:
+      - 'data/ds000030/sub-10525/func/sub-10525_task-rest_bold.nii.gz'
+  sub50004_CTRL:
+    id: '50004'
     type: 'CTRL'
     images:
-      - 'data/ds001461/sub-301/func/sub-301_task-rest_bold.nii.gz'
-  sub302_CTRL:
-    id: '302'
+      - 'data/ds000030/sub-50004/func/sub-50004_task-rest_bold.nii.gz'
+  sub50005_CTRL:
+    id: '50005'
     type: 'CTRL'
     images:
-      - 'data/ds001461/sub-302/func/sub-302_task-rest_bold.nii.gz'
-  sub303_CTRL:
-    id: '303'
+      - 'data/ds000030/sub-50005/func/sub-50005_task-rest_bold.nii.gz'
+  sub50006_CTRL:
+    id: '50006'
     type: 'CTRL'
     images:
-      - 'data/ds001461/sub-303/func/sub-303_task-rest_bold.nii.gz'
-  sub304_CTRL:
-    id: '304'
+      - 'data/ds000030/sub-50006/func/sub-50006_task-rest_bold.nii.gz'
+  sub50007_CTRL:
+    id: '50007'
     type: 'CTRL'
     images:
-      - 'data/ds001461/sub-304/func/sub-304_task-rest_bold.nii.gz'
-  sub305_CTRL:
-    id: '305'
+      - 'data/ds000030/sub-50007/func/sub-50007_task-rest_bold.nii.gz'
+  sub50008_CTRL:
+    id: '50008'
     type: 'CTRL'
     images:
-      - 'data/ds001461/sub-305/func/sub-305_task-rest_bold.nii.gz'
-  sub306_CTRL:
-    id: '306'
+      - 'data/ds000030/sub-50008/func/sub-50008_task-rest_bold.nii.gz'
+  sub50010_CTRL:
+    id: '50010'
     type: 'CTRL'
     images:
-      - 'data/ds001461/sub-306/func/sub-306_task-rest_bold.nii.gz'
-  sub307_CTRL:
-    id: '307'
+      - 'data/ds000030/sub-50010/func/sub-50010_task-rest_bold.nii.gz'
+  sub50013_CTRL:
+    id: '50013'
     type: 'CTRL'
     images:
-      - 'data/ds001461/sub-307/func/sub-307_task-rest_bold.nii.gz'
-  sub308_CTRL:
-    id: '308'
+      - 'data/ds000030/sub-50013/func/sub-50013_task-rest_bold.nii.gz'
+  sub50014_CTRL:
+    id: '50014'
     type: 'CTRL'
     images:
-      - 'data/ds001461/sub-308/func/sub-308_task-rest_bold.nii.gz'
-  sub309_CTRL:
-    id: '309'
+      - 'data/ds000030/sub-50014/func/sub-50014_task-rest_bold.nii.gz'
+  sub50015_CTRL:
+    id: '50015'
     type: 'CTRL'
     images:
-      - 'data/ds001461/sub-309/func/sub-309_task-rest_bold.nii.gz'
-  sub310_CTRL:
-    id: '310'
+      - 'data/ds000030/sub-50015/func/sub-50015_task-rest_bold.nii.gz'
+  sub50016_CTRL:
+    id: '50016'
     type: 'CTRL'
     images:
-      - 'data/ds001461/sub-310/func/sub-310_task-rest_bold.nii.gz'
-  sub311_CTRL:
-    id: '311'
+      - 'data/ds000030/sub-50016/func/sub-50016_task-rest_bold.nii.gz'
+  sub50020_CTRL:
+    id: '50020'
     type: 'CTRL'
     images:
-      - 'data/ds001461/sub-311/func/sub-311_task-rest_bold.nii.gz'
+      - 'data/ds000030/sub-50020/func/sub-50020_task-rest_bold.nii.gz'
+  sub50021_CTRL:
+    id: '50021'
+    type: 'CTRL'
+    images:
+      - 'data/ds000030/sub-50021/func/sub-50021_task-rest_bold.nii.gz'
+  sub50022_CTRL:
+    id: '50022'
+    type: 'CTRL'
+    images:
+      - 'data/ds000030/sub-50022/func/sub-50022_task-rest_bold.nii.gz'
+  sub50023_CTRL:
+    id: '50023'
+    type: 'CTRL'
+    images:
+      - 'data/ds000030/sub-50023/func/sub-50023_task-rest_bold.nii.gz'
+  sub50025_CTRL:
+    id: '50025'
+    type: 'CTRL'
+    images:
+      - 'data/ds000030/sub-50025/func/sub-50025_task-rest_bold.nii.gz'
+  sub50027_CTRL:
+    id: '50027'
+    type: 'CTRL'
+    images:
+      - 'data/ds000030/sub-50027/func/sub-50027_task-rest_bold.nii.gz'
+  sub50029_CTRL:
+    id: '50029'
+    type: 'CTRL'
+    images:
+      - 'data/ds000030/sub-50029/func/sub-50029_task-rest_bold.nii.gz'
+  sub50032_CTRL:
+    id: '50032'
+    type: 'CTRL'
+    images:
+      - 'data/ds000030/sub-50032/func/sub-50032_task-rest_bold.nii.gz'
+  sub50033_CTRL:
+    id: '50033'
+    type: 'CTRL'
+    images:
+      - 'data/ds000030/sub-50033/func/sub-50033_task-rest_bold.nii.gz'
+  sub50034_CTRL:
+    id: '50034'
+    type: 'CTRL'
+    images:
+      - 'data/ds000030/sub-50034/func/sub-50034_task-rest_bold.nii.gz'
+  sub50035_CTRL:
+    id: '50035'
+    type: 'CTRL'
+    images:
+      - 'data/ds000030/sub-50035/func/sub-50035_task-rest_bold.nii.gz'
+  sub50036_CTRL:
+    id: '50036'
+    type: 'CTRL'
+    images:
+      - 'data/ds000030/sub-50036/func/sub-50036_task-rest_bold.nii.gz'
+  sub50038_CTRL:
+    id: '50038'
+    type: 'CTRL'
+    images:
+      - 'data/ds000030/sub-50038/func/sub-50038_task-rest_bold.nii.gz'
+  sub50043_CTRL:
+    id: '50043'
+    type: 'CTRL'
+    images:
+      - 'data/ds000030/sub-50043/func/sub-50043_task-rest_bold.nii.gz'
+  sub50047_CTRL:
+    id: '50047'
+    type: 'CTRL'
+    images:
+      - 'data/ds000030/sub-50047/func/sub-50047_task-rest_bold.nii.gz'
+  sub50048_CTRL:
+    id: '50048'
+    type: 'CTRL'
+    images:
+      - 'data/ds000030/sub-50048/func/sub-50048_task-rest_bold.nii.gz'
+  sub50049_CTRL:
+    id: '50049'
+    type: 'CTRL'
+    images:
+      - 'data/ds000030/sub-50049/func/sub-50049_task-rest_bold.nii.gz'
+  sub50050_CTRL:
+    id: '50050'
+    type: 'CTRL'
+    images:
+      - 'data/ds000030/sub-50050/func/sub-50050_task-rest_bold.nii.gz'
+  sub50051_CTRL:
+    id: '50051'
+    type: 'CTRL'
+    images:
+      - 'data/ds000030/sub-50051/func/sub-50051_task-rest_bold.nii.gz'
+  sub50052_CTRL:
+    id: '50052'
+    type: 'CTRL'
+    images:
+      - 'data/ds000030/sub-50052/func/sub-50052_task-rest_bold.nii.gz'
+  sub50053_CTRL:
+    id: '50053'
+    type: 'CTRL'
+    images:
+      - 'data/ds000030/sub-50053/func/sub-50053_task-rest_bold.nii.gz'
+  sub50054_CTRL:
+    id: '50054'
+    type: 'CTRL'
+    images:
+      - 'data/ds000030/sub-50054/func/sub-50054_task-rest_bold.nii.gz'
+  sub50055_CTRL:
+    id: '50055'
+    type: 'CTRL'
+    images:
+      - 'data/ds000030/sub-50055/func/sub-50055_task-rest_bold.nii.gz'
+  sub50056_CTRL:
+    id: '50056'
+    type: 'CTRL'
+    images:
+      - 'data/ds000030/sub-50056/func/sub-50056_task-rest_bold.nii.gz'
+  sub50058_CTRL:
+    id: '50058'
+    type: 'CTRL'
+    images:
+      - 'data/ds000030/sub-50058/func/sub-50058_task-rest_bold.nii.gz'
+  sub50059_CTRL:
+    id: '50059'
+    type: 'CTRL'
+    images:
+      - 'data/ds000030/sub-50059/func/sub-50059_task-rest_bold.nii.gz'
+  sub50060_CTRL:
+    id: '50060'
+    type: 'CTRL'
+    images:
+      - 'data/ds000030/sub-50060/func/sub-50060_task-rest_bold.nii.gz'
+  sub50061_CTRL:
+    id: '50061'
+    type: 'CTRL'
+    images:
+      - 'data/ds000030/sub-50061/func/sub-50061_task-rest_bold.nii.gz'
+  sub50064_CTRL:
+    id: '50064'
+    type: 'CTRL'
+    images:
+      - 'data/ds000030/sub-50064/func/sub-50064_task-rest_bold.nii.gz'
+  sub50066_CTRL:
+    id: '50066'
+    type: 'CTRL'
+    images:
+      - 'data/ds000030/sub-50066/func/sub-50066_task-rest_bold.nii.gz'
+  sub50067_CTRL:
+    id: '50067'
+    type: 'CTRL'
+    images:
+      - 'data/ds000030/sub-50067/func/sub-50067_task-rest_bold.nii.gz'
+  sub50069_CTRL:
+    id: '50069'
+    type: 'CTRL'
+    images:
+      - 'data/ds000030/sub-50069/func/sub-50069_task-rest_bold.nii.gz'
+  sub50073_CTRL:
+    id: '50073'
+    type: 'CTRL'
+    images:
+      - 'data/ds000030/sub-50073/func/sub-50073_task-rest_bold.nii.gz'
+  sub50075_CTRL:
+    id: '50075'
+    type: 'CTRL'
+    images:
+      - 'data/ds000030/sub-50075/func/sub-50075_task-rest_bold.nii.gz'
+  sub50076_CTRL:
+    id: '50076'
+    type: 'CTRL'
+    images:
+      - 'data/ds000030/sub-50076/func/sub-50076_task-rest_bold.nii.gz'
+  sub50077_CTRL:
+    id: '50077'
+    type: 'CTRL'
+    images:
+      - 'data/ds000030/sub-50077/func/sub-50077_task-rest_bold.nii.gz'
+  sub50080_CTRL:
+    id: '50080'
+    type: 'CTRL'
+    images:
+      - 'data/ds000030/sub-50080/func/sub-50080_task-rest_bold.nii.gz'
+  sub50081_CTRL:
+    id: '50081'
+    type: 'CTRL'
+    images:
+      - 'data/ds000030/sub-50081/func/sub-50081_task-rest_bold.nii.gz'
+  sub50083_CTRL:
+    id: '50083'
+    type: 'CTRL'
+    images:
+      - 'data/ds000030/sub-50083/func/sub-50083_task-rest_bold.nii.gz'
+  sub50085_CTRL:
+    id: '50085'
+    type: 'CTRL'
+    images:
+      - 'data/ds000030/sub-50085/func/sub-50085_task-rest_bold.nii.gz'
