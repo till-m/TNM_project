@@ -51,7 +51,7 @@ def make_masker(scheme):
     if scheme.lower() == "harvox":  # 48 regions
         dataset = datasets.fetch_atlas_harvard_oxford('cort-maxprob-thr25-2mm')
         atlas_filename = dataset.maps
-        labels = dataset.labels
+        labels = dataset.labels[1:] # trim off "background" label
         masker = NiftiLabelsMasker(labels_img=atlas_filename,
                                    standardize=True,
                                    high_variance_confounds=True,
@@ -65,7 +65,7 @@ def make_masker(scheme):
         labels = list(np.arange(1, 18))
     elif scheme.lower() == "aal":  # 116 regions
         dataset = datasets.fetch_atlas_aal(version='SPM12')
-        labels = ["Background"] + dataset['labels']
+        labels = dataset['labels']
         masker = NiftiLabelsMasker(labels_img=dataset['maps'],
                                    standardize=True,
                                    high_variance_confounds=True,

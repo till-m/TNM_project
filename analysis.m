@@ -1,6 +1,6 @@
 clear all;
 % fix the random number generator
-rng(2406,'twister') % is this still necessary?
+rng(2406,'twister')
 
 % get path of rDCM toolbox
 P        = mfilename('fullpath');
@@ -8,10 +8,10 @@ rDCM_ind = strfind(P,fullfile('rDCM','code'));
 fprintf('Load data\n')
 
 % Basic settings necessary to set before start
-mode = 0; %1: Schizo, 0:LSD
-%directory = "output_DCM/schizo/yeo/";
-directory = "output_DCM/yeo/";
-signficance_threshold = 0.02; %yeo threshold 0.02, harvox threshold 0.01
+mode = 0; %1: SCZ, 0:LSD
+%directory = "output_DCM/SCZ/yeo/";
+directory = "output_DCM/harvox/";
+signficance_threshold = 1e-3; %yeo threshold 0.02, harvox threshold 0.01
 % End Basic settings necessary to set before start
 
 if mode == 0
@@ -37,6 +37,8 @@ if mode == 0
     end
 
     %% Analysis for parcellation
+    all_regions = cellstr(PLCB_subjects_all(1).rDCM_output.meta.regions);
+    
     parcelations_matrix_size = size(PLCB_subjects_all(1).rDCM_output.Ep.A);
     parcelation_n = parcelations_matrix_size(1);
     meanMatrix = zeros(parcelations_matrix_size);
@@ -53,7 +55,6 @@ if mode == 0
     end
     std = sqrt(std./n_subjects);
 
-
 else
     listing_SCZ = dir(directory+'*SCZ.mat');
     listing_CTRL = dir(directory+'*CTRL.mat');
@@ -61,6 +62,9 @@ else
     allFileNames_CTRL = {listing_CTRL(:).name};
     n_subjects_SCZ = length(allFileNames_SCZ);    
     n_subjects_CTRL = length(allFileNames_CTRL); 
+
+
+
 
     parcelations_matrix_size = size(load(directory + allFileNames_SCZ{1}).rDCM_output.Ep.A);
     parcelation_n = parcelations_matrix_size(1);
@@ -78,13 +82,16 @@ else
         CTRL_meanMatrix = CTRL_meanMatrix + CTRL_subjects_all(i).rDCM_output.Ep.A;
     end
 
+    all_regions = cellstr(CTRL_subjects_all(1).rDCM_output.meta.regions);
+
     SCZ_meanMatrix = SCZ_meanMatrix ./ n_subjects_SCZ;
     CTRL_meanMatrix = CTRL_meanMatrix ./ n_subjects_CTRL;
     meanMatrix = SCZ_meanMatrix - CTRL_meanMatrix;
 
 end
-    
-    
+
+regions_to_analyse = all_regions; %{'Planum Temporale'; 'Supracalcarine Cortex'; 'Occipital Pole'}
+meanMatrix = select_regions_by_name(regions_to_analyse, all_regions, meanMatrix);
 %from Valeries extra analysis
 colormap('parula')
 imagesc(meanMatrix)
@@ -103,7 +110,7 @@ ylabel('region (to)','FontSize',12)
 % flag the high average
 significant = meanMatrix;
 significant(abs(significant)<=signficance_threshold) = 1e-9;
-significant(abs(significant)<=0.02) = 1e-9; %yeo threshold
+%significant(abs(significant)<=0.02) = 1e-9; %yeo threshold
 %significant(abs(significant)<=0.01) = 1e-9; %harvox threshold
 colormap('parula')
 imagesc(significant)
@@ -116,6 +123,8 @@ caxis(caxis_range)
 %set(gca,'xtick',[1 round(size(output.Ep.A,1)/2) size(output.Ep.A,1)])
 set(gca,'xtick',[1:parcelation_n])
 set(gca,'ytick',[1:parcelation_n])
+set(gca,'xticklabels', regions_to_analyse)
+set(gca,'yticklabels', regions_to_analyse)
 %set(gca,'ytick',[1 round(size(output.Ep.A,1)/2) size(output.Ep.A,1)])
 xlabel('region (from)','FontSize',12)
 ylabel('region (to)','FontSize',12)
@@ -229,3 +238,19 @@ ylabel('region (to)','FontSize',12)
 % hold off
 % 
 % 
+
+function res = select_regions_by_number(regions_idx, matrix)
+    res = matrix(regions_idx,regions_idx);
+end
+
+function res = select_regions_by_name(regions, all_regions, matrix)
+    n_regions = size(regions, 1);
+    idx = [];
+    for i = 1:n_regions
+        region = regions(i);
+        X = contains(all_regions, region);
+        idx(end+1) = find(X);
+    end
+    res = matrix(idx,idx);
+end
+   

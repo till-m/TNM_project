@@ -25,24 +25,10 @@ methods = 1;
 % output elapsed time
 toc(currentTimer)
 
-
-
-%% visualize the results
-
-% regions for which to plot traces
-%plot_regions = [1 12];
-
-% visualize the results
-%tapas_rdcm_visualize(rDCM_output, DCM, options, plot_regions, 1)
-
-
 %% Export results.
-%A = rDCM_output.Ep.A;
-A = rDCM_output;
+rDCM_output.meta = meta;
 
 folder_path = "output_DCM/" + meta.scheme;
 mkdir(folder_path);
 fprintf("Saving to " + folder_path);
-%save(folder_path + "/" + meta.name, 'meta', 'A')
 save(folder_path + "/" + meta.name, 'rDCM_output')
-
