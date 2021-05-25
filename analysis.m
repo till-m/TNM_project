@@ -10,7 +10,7 @@ fprintf('Load data\n')
 % Basic settings necessary to set before start
 mode = 0; %1: SCZ, 0:LSD
 %directory = "output_DCM/SCZ/yeo/";
-directory = "output_DCM/harvox/";
+directory = "yeo/";
 signficance_threshold = 1e-3; %yeo threshold 0.02, harvox threshold 0.01
 % End Basic settings necessary to set before start
 
@@ -112,9 +112,9 @@ else
         SCZ_subjects_all(i).name = allFileNames_SCZ{i};
         SCZ_subjects_all(i).rDCM_output = load(directory + allFileNames_SCZ{i}).rDCM_output;
         meanMatrix = meanMatrix + (SCZ_subjects_all(i).rDCM_output.Ep.A - CTRL_meanMatrix);
-        diff = SCZ_subjects_all(i).rDCM_output.Ep.A - CTRL_meanMatrix;
-        fileName = sprintf('diff_SCZ_%d.mat', i);
-        save(fileName,'diff')
+        %diff = SCZ_subjects_all(i).rDCM_output.Ep.A - CTRL_meanMatrix;
+        %fileName = sprintf('diff_SCZ_%d.mat', i);
+        %save(fileName,'diff')
     end
     meanMatrix = meanMatrix ./ n_subjects_SCZ;
     
@@ -162,8 +162,8 @@ significant = meanMatrix;
 %significant(abs(significant)<=signficance_threshold) = 1e-9;
 %significant(abs(significant)<=0.02) = 1e-9; %yeo threshold LSD
 %significant(abs(significant)<=0.007) = 1e-9; %harvox threshold LSD
-significant(abs(significant)<=0.015) = 1e-9; %yeo threshold SCZ
-%significant(abs(significant)<=0.0055) = 1e-9; %harvox threshold LSD
+%significant(abs(significant)<=0.015) = 1e-9; %yeo threshold SCZ
+significant(abs(significant)<=0.0055) = 1e-9; %harvox threshold LSD
 colormap('parula')
 imagesc(significant)
 colorbar
@@ -177,8 +177,8 @@ caxis([-0.025 0.025]) %yeo SCZ
 %set(gca,'xtick',[1 round(size(output.Ep.A,1)/2) size(output.Ep.A,1)])
 set(gca,'xtick',[1:parcelation_n])
 set(gca,'ytick',[1:parcelation_n])
-set(gca,'xticklabels', regions_to_analyse)
-set(gca,'yticklabels', regions_to_analyse)
+%set(gca,'xticklabels', regions_to_analyse)
+%set(gca,'yticklabels', regions_to_analyse)
 %set(gca,'ytick',[1 round(size(output.Ep.A,1)/2) size(output.Ep.A,1)])
 xlabel('region (from)','FontSize',12)
 ylabel('region (to)','FontSize',12)
@@ -348,6 +348,126 @@ hold off
 % 
 % 
 
+%% clustering of SCZ data
+out = cell(1,n_subjects_SCZ);
+visual = cell(1,n_subjects_SCZ);
+num = zeros(1,n_subjects_SCZ);
+for k = 1:n_subjects_SCZ
+    fileName = sprintf('yeo/diff_SCZ_%d.mat', k);
+    out{k} = load(fileName).diff;
+    visual{k} = out{k}(:,1:2);
+    visual{k}(abs(visual{k})<=0.0162) = 1e-9; 
+    linearIndexes = find(abs(visual{k}) > 1e-9); 
+    num(k) = size(linearIndexes,1);
+end
+
+plot(num,'-o')
+yline(21,'r--', 'LineWidth', 3)
+xlabel("Index of Schizophrenia Patients")
+ylabel("Number of entries with values higher than the threshold")
+
+
+
+visual_lst = find(num > 20);
+absMeanMatrix = zeros(parcelation_n);
+for i= 1:size(visual_lst,2)
+    absMeanMatrix = absMeanMatrix + abs(out{visual_lst(i)});
+end
+absMeanMatrix = absMeanMatrix ./ size(visual_lst,2);
+            
+
+temp = zeros(1,size(visual_lst,2));
+for i = 1:parcelation_n
+    for j = 1:parcelation_n
+        lst = zeros(1,size(visual_lst,2));
+        for k = 1:size(visual_lst,2)
+            ind = visual_lst(k);
+            lst(k) = abs(out{ind}(i,j));
+        end
+        temp = cat(1,temp,lst);
+    end
+end
+final_visual = temp(2:end,:);
+
+
+colormap('parula')
+imagesc(absMeanMatrix)
+colorbar
+caxis([0 0.05]) 
+title('Average Absolute Difference for Subjects with High Visual Cortex Impacts','FontSize',12)
+axis square
+xlabel('region (from)','FontSize',12)
+ylabel('region (to)','FontSize',12)
+
+
+% flag the high average
+significant = absMeanMatrix;
+significant(significant<=0.036) = 1e-9; 
+colormap('parula')
+imagesc(significant)
+colorbar
+title('Average Absolute Difference for Subjects with High Visual Cortex Impacts','FontSize',12)
+axis square
+caxis([0 0.05]) 
+set(gca,'xtick',[1:parcelation_n])
+set(gca,'ytick',[1:parcelation_n])
+%set(gca,'ytick',[1 round(size(output.Ep.A,1)/2) size(output.Ep.A,1)])
+xlabel('region (from)','FontSize',12)
+ylabel('region (to)','FontSize',12)
+ 
+
+full_lst = [1:n_subjects_SCZ];
+notVisual_lst = setdiff(full_lst, visual_lst); 
+
+absMeanMatrix_notVisual = zeros(parcelation_n);
+for i= 1:size(notVisual_lst,2)
+    absMeanMatrix_notVisual = absMeanMatrix_notVisual + abs(out{notVisual_lst(i)});
+end
+absMeanMatrix_notVisual = absMeanMatrix_notVisual ./ size(notVisual_lst,2);
+
+temp = zeros(1,size(notVisual_lst,2));
+for i = 1:parcelation_n
+    for j = 1:parcelation_n
+        lst = zeros(1,size(notVisual_lst,2));
+        for k = 1:size(notVisual_lst,2)
+            ind = notVisual_lst(k);
+            lst(k) = abs(out{ind}(i,j));
+        end
+        temp = cat(1,temp,lst);
+    end
+end
+final_notVisual = temp(2:end,:);
+
+
+colormap('parula')
+imagesc(absMeanMatrix_notVisual)
+colorbar
+caxis([0 0.05]) 
+title('Average Absolute Difference for Subjects with Low Visual Cortex Impacts','FontSize',12)
+axis square
+xlabel('region (from)','FontSize',12)
+ylabel('region (to)','FontSize',12)
+
+
+
+% flag the high average
+significant_notVisual = absMeanMatrix_notVisual;
+significant_notVisual(significant_notVisual<=0.036) = 1e-9; 
+colormap('parula')
+imagesc(significant_notVisual)
+colorbar
+title('Average Absolute Difference for Subjects with Low Visual Cortex Impacts','FontSize',12)
+axis square
+caxis([0 0.05]) 
+set(gca,'xtick',[1:parcelation_n])
+set(gca,'ytick',[1:parcelation_n])
+%set(gca,'ytick',[1 round(size(output.Ep.A,1)/2) size(output.Ep.A,1)])
+xlabel('region (from)','FontSize',12)
+ylabel('region (to)','FontSize',12)
+
+
+
+%% functions to select regions
 function res = select_regions_by_number(regions_idx, matrix)
     res = matrix(regions_idx,regions_idx);
 end
@@ -362,4 +482,6 @@ function res = select_regions_by_name(regions, all_regions, matrix)
     end
     res = matrix(idx,idx);
 end
+
+
    
