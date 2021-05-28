@@ -16,7 +16,7 @@ function yeo()
     PLCB_subjects = load_data("output_DCM/yeo/", "PLCB");
     SCZ_subjects = load_data("output_DCM/yeo/", "SCZ");
     CTRL_subjects = load_data("output_DCM/yeo/", "CTRL");
-    ttest_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects, 0)
+    ttest_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects)
     
 end
 
@@ -27,25 +27,31 @@ function schaefer()
     PLCB_subjects = load_data("output_DCM/schaefer/", "PLCB");
     SCZ_subjects = load_data("output_DCM/schaefer/", "SCZ");
     CTRL_subjects = load_data("output_DCM/schaefer/", "CTRL");
-    ttest_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects, 0)
+    ticklabels = cellstr(LSD_subjects(1).rDCM_output.meta.regions);
+    ttest_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects); %, ticklabels)
 end
 
 %% function definitions
 function ttest_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects, ticklabels)
+    % bad way of making things optional
+    if ~(exist('ticklabels', 'var'))
+        ticklabels = [];
+    end
+
     % t-test LSD vs. PLCB
     tt = t_test(LSD_subjects, PLCB_subjects);
-    plot_matrix(tt,'Significance LSD/PLCB', 0, ticklabels);
+    plot_matrix(tt,'Significance LSD/PLCB', [], ticklabels);
     
     % t-test SCZ vs. CTRL
     tt = t_test(SCZ_subjects, CTRL_subjects);
-    plot_matrix(tt,'Significance LSD/PLCB', 0, ticklabels);
+    plot_matrix(tt,'Significance SCZ/CTRL', [], ticklabels);
     
     % t-test SCZ vs. CTRL
     diff1 = unpaired_diff(LSD_subjects, PLCB_subjects);
     diff2 = unpaired_diff(SCZ_subjects, CTRL_subjects);
     
     tt = t_test(diff1, diff2);
-    plot_matrix(tt,'Significance LSD-PLCB_{avg}/SCZ-CTRL_{avg}', 0, ticklabels);
+    plot_matrix(tt,'Significance LSD-PLCB_{avg}/SCZ-CTRL_{avg}', [], ticklabels);
 end
 
 function res = t_test(subjects1, subjects2)
@@ -58,7 +64,6 @@ function res = concat_subjects(subjects)
     n_subjects = size(subjects, 2);
     res = [];
     for i = 1:n_subjects
-        disp(subjects(i).name)
         col = subjects(i).rDCM_output.Ep.A(:);
         res = [res, col];
     end
@@ -122,21 +127,20 @@ end
 
 function plot_matrix(matrix, plot_title, caxis_range, ticklabels)
     figure()
-    % no keyword arguments, what a joke of a language.
-    % set caxis_range and ticklabels to 0 if NA
+
     colormap('parula')
     imagesc(matrix)
     colorbar
     title(plot_title, 'FontSize', 14)
     axis square
-    if ~(caxis_range==0)
+    if ~(size(caxis_range,1)==0)
         caxis(caxis_range)
     end
-    set(gca,'xtick',1:size(matrix,1))
-    set(gca,'ytick',1:size(matrix,1))
     xlabel('region (from)','FontSize',12)
     ylabel('region (to)','FontSize',12)
-    if ~(ticklabels==0)
+    if ~(size(ticklabels,1)==0)
+        set(gca,'xtick',1:size(matrix,1))
+        set(gca,'ytick',1:size(matrix,1))
         set(gca,'xticklabels', ticklabels)
         set(gca,'yticklabels', ticklabels)
     end
