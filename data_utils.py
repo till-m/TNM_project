@@ -70,6 +70,13 @@ def make_masker(scheme):
                                    standardize=True,
                                    high_variance_confounds=True,
                                    verbose=1)
+    elif scheme.lower() == "schaefer":
+        dataset = datasets.fetch_atlas_schaefer_2018(n_rois=100)
+        labels = dataset['labels']
+        masker = NiftiLabelsMasker(labels_img=dataset['maps'],
+                                   standardize=True,
+                                   high_variance_confounds=True,
+                                   verbose=1)
     return masker, labels
 
 
