@@ -17,7 +17,6 @@ function yeo()
     SCZ_subjects = load_data("output_DCM/yeo/", "SCZ");
     CTRL_subjects = load_data("output_DCM/yeo/", "CTRL");
     ttest_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects)
-    
 end
 
 
@@ -28,8 +27,9 @@ function schaefer()
     SCZ_subjects = load_data("output_DCM/schaefer/", "SCZ");
     CTRL_subjects = load_data("output_DCM/schaefer/", "CTRL");
     ticklabels = cellstr(LSD_subjects(1).rDCM_output.meta.regions);
-    ttest_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects); %, ticklabels)
+    ttest_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects); %(, ticklabels);
 end
+
 
 %% function definitions
 function ttest_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects, ticklabels)
@@ -52,11 +52,19 @@ function ttest_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects,
     
     tt = t_test(diff1, diff2);
     plot_matrix(tt,'Significance LSD-PLCB_{avg}/SCZ-CTRL_{avg}', [], ticklabels);
+    
+    [cor,Pval] = correlation(diff1,diff2);
+    disp(cor)
+    disp(Pval)
+    
 end
 
 function res = t_test(subjects1, subjects2)
     shape = size(subjects1(1).rDCM_output.Ep.A);
-    res = ttest2(concat_subjects(subjects1).', concat_subjects(subjects2).'); 
+    [res,p] = ttest2(concat_subjects(subjects1).', concat_subjects(subjects2).'); 
+    % FDR correction
+    [fdr,q] = mafdr(p);
+    res = q <= 0.05;
     res = reshape(res, shape);
 end
 
@@ -70,7 +78,7 @@ function res = concat_subjects(subjects)
 end
 
 function diff = paired_diff(subjects1, subjects2)
-    n_subjects = size(subjects, 2);
+    n_subjects = size(subjects1, 2);
     for i = 1:n_subjects
         diff(i).name = subjects1(i).name;
         diff(i).rDCM_output.Ep.A = subjects1(i).rDCM_output.Ep.A - subjects2(i).rDCM_output.Ep.A;
@@ -89,10 +97,15 @@ end
 function res = average_over_subjects(subjects)
     n_subjects = size(subjects, 2);
     res = subjects(1).rDCM_output.Ep.A;
-    for i = 1:n_subjects
+    for i = 2:n_subjects
         res = res + subjects(i).rDCM_output.Ep.A;
     end
     res = res ./ n_subjects;
+end
+
+function [res,P] = correlation(subjects1,subjects2)
+    size(mean(concat_subjects(subjects1).'))
+    [res,P] = corrcoef(mean(concat_subjects(subjects1).'), mean(concat_subjects(subjects2).'));
 end
 
 function all_subjects = load_data(directory, type)
@@ -128,9 +141,11 @@ end
 function plot_matrix(matrix, plot_title, caxis_range, ticklabels)
     figure()
 
-    colormap('parula')
+    map = [0.2 0.1 0.5
+           0 1 1];
+    colormap(map)
     imagesc(matrix)
-    colorbar
+    %colorbar
     title(plot_title, 'FontSize', 14)
     axis square
     if ~(size(caxis_range,1)==0)
@@ -138,6 +153,9 @@ function plot_matrix(matrix, plot_title, caxis_range, ticklabels)
     end
     xlabel('region (from)','FontSize',12)
     ylabel('region (to)','FontSize',12)
+    L = line(ones(2), ones(2));
+    set(L, {'Color'}, num2cell(map, 2))
+    legend(L, {'Not significant','Significant'},'Location','northeastoutside')
     if ~(size(ticklabels,1)==0)
         set(gca,'xtick',1:size(matrix,1))
         set(gca,'ytick',1:size(matrix,1))
