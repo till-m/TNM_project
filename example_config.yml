@@ -1,6 +1,5 @@
 scheme: yeo
 manual: False
-scheme: harvox
 data:
   sub001_PLCB:
     id: '001'

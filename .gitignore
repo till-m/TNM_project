@@ -4,4 +4,5 @@ data/**
 __pycache__/
 nilearn_cache/
 output_DCM/
+.DS_Store
 

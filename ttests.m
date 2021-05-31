@@ -13,48 +13,54 @@ schaefer()
 
 %% yeo analysis
 function yeo()
-    correction = 1;
-    LSD_subjects = load_data("yeo/", "LSD");
-    PLCB_subjects = load_data("yeo/", "PLCB");
-    SCZ_subjects = load_data("yeo/", "SCZ");
-    CTRL_subjects = load_data("yeo/", "CTRL");
-    ttest_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects, correction)
+    FDR_correction = 1;
+    caxis_range = [-0.025 0.025];
+
+
+    LSD_subjects = load_data("output_DCM/yeo/", "LSD");
+    PLCB_subjects = load_data("output_DCM/yeo/", "PLCB");
+    SCZ_subjects = load_data("output_DCM/yeo/", "SCZ");
+    CTRL_subjects = load_data("output_DCM/yeo/", "CTRL");
+    ttest_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects, FDR_correction, caxis_range)
 end
 
 
 %% schaefer analysis
 function schaefer()
-    correction = 1;
-    LSD_subjects = load_data("schaefer_17/", "LSD");
-    PLCB_subjects = load_data("schaefer_17/", "PLCB");
-    SCZ_subjects = load_data("schaefer_17/", "SCZ");
-    CTRL_subjects = load_data("schaefer_17/", "CTRL");
+    FDR_correction = 1;
+    caxis_range = [-0.002 0.002];
+
+
+    LSD_subjects = load_data("output_DCM/schaefer/", "LSD");
+    PLCB_subjects = load_data("output_DCM/schaefer/", "PLCB");
+    SCZ_subjects = load_data("output_DCM/schaefer/", "SCZ");
+    CTRL_subjects = load_data("output_DCM/schaefer/", "CTRL");
     ticklabels = cellstr(LSD_subjects(1).rDCM_output.meta.regions);
-    ttest_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects, correction); %(, ticklabels);
+    ttest_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects, FDR_correction, caxis_range); %(, ticklabels);
 end
 
 
 %% function definitions
-function ttest_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects, correction, ticklabels)
+function ttest_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects, FDR_correction, caxis_range, ticklabels)
     % bad way of making things optional
     if ~(exist('ticklabels', 'var'))
         ticklabels = [];
     end
 
     % t-test LSD vs. PLCB
-    tt = t_test(LSD_subjects, PLCB_subjects, correction);
-    plot_matrix(tt,'Significance LSD/PLCB', [], ticklabels);
+    tt = t_test(LSD_subjects, PLCB_subjects, FDR_correction);
+    plot_significance(tt,'Significance LSD/PLCB', ticklabels);
     
     % t-test SCZ vs. CTRL
-    tt = t_test(SCZ_subjects, CTRL_subjects, correction);
-    plot_matrix(tt,'Significance SCZ/CTRL', [], ticklabels);
+    tt = t_test(SCZ_subjects, CTRL_subjects, FDR_correction);
+    plot_significance(tt,'Significance SCZ/CTRL', ticklabels);
     
     % t-test SCZ vs. CTRL
     diff1 = unpaired_diff(LSD_subjects, PLCB_subjects);
     diff2 = unpaired_diff(SCZ_subjects, CTRL_subjects);
     
-    tt = t_test(diff1, diff2, correction);
-    plot_matrix(tt,'Significance LSD-PLCB_{avg}/SCZ-CTRL_{avg}', [], ticklabels);
+    tt = t_test(diff1, diff2, FDR_correction);
+    plot_significance(tt,'Significance LSD-PLCB_{avg}/SCZ-CTRL_{avg}', ticklabels);
     
     [cor,Pval] = correlation(diff1,diff2);
     disp(cor)
@@ -66,24 +72,19 @@ function ttest_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects,
     %LSD_SCZ = reshape(LSD_SCZ,shape);
     %LSD_SCZ(tt==0) = 0; 
     %plot_matrix_diff(LSD_SCZ,'Average Differences [LSD-PLCB_{avg}] - [SCZ-CTRL_{avg}]', [], ticklabels);
-    LSD = mean(concat_subjects(diff1).');
-    SCZ = mean(concat_subjects(diff2).');
-    shape = size(LSD_subjects(1).rDCM_output.Ep.A);
-    LSD = reshape(LSD,shape);
-    SCZ = reshape(SCZ,shape);
-    LSD(tt==0) = 0; 
-    SCZ(tt==0) = 0; 
-    plot_matrix_avg(LSD,'Average LSD-PLCB_{avg}', [], ticklabels);
-    plot_matrix_avg(SCZ,'Average SCZ-CTRL_{avg}', [], ticklabels);
+
+
+    avg_and_plot_matrix(diff1, tt, 'Average LSD-PLCB_{avg}', caxis_range, ticklabels);
+    avg_and_plot_matrix(diff2, tt, 'Average SCZ-CTRL_{avg}', caxis_range, ticklabels);
     
 end
 
-function res = t_test(subjects1, subjects2, correction)
+function res = t_test(subjects1, subjects2, FDR_correction)
     shape = size(subjects1(1).rDCM_output.Ep.A);
     [res,p] = ttest2(concat_subjects(subjects1).', concat_subjects(subjects2).'); 
     % FDR correction
-    if correction == 1
-        [fdr,q] = mafdr(p);
+    if FDR_correction == 1
+        [~,q] = mafdr(p);
         res = q <= 0.05;
     end
     res = reshape(res, shape);
@@ -159,7 +160,7 @@ function res = select_regions_by_name(regions, all_regions, matrix)
     res = matrix(idx,idx);
 end
 
-function plot_matrix(matrix, plot_title, caxis_range, ticklabels)
+function plot_significance(matrix, plot_title, ticklabels)
     figure()
 
     map = [0.2 0.1 0.5
@@ -169,9 +170,7 @@ function plot_matrix(matrix, plot_title, caxis_range, ticklabels)
     %colorbar
     title(plot_title, 'FontSize', 14)
     axis square
-    if ~(size(caxis_range,1)==0)
-        caxis(caxis_range)
-    end
+
     xlabel('region (from)','FontSize',12)
     ylabel('region (to)','FontSize',12)
     %set(gca,'xtick',[1:size(matrix,1)])
@@ -188,14 +187,18 @@ function plot_matrix(matrix, plot_title, caxis_range, ticklabels)
     shg
 end
 
-function plot_matrix_avg(matrix, plot_title, caxis_range, ticklabels)
+function avg_and_plot_matrix(diff, tt_result, plot_title, caxis_range, ticklabels)
+    avg = mean(concat_subjects(diff).');
+    shape = size(tt_result);
+    avg = reshape(avg,shape);
+    avg(tt_result==0) = 0;
+
     figure()
 
     colormap('parula')
-    imagesc(matrix)
+    imagesc(avg)
     colorbar
-    caxis([-0.025 0.025]) % for yeo
-    caxis([-0.002 0.002]) % for schaefer
+
     title(plot_title, 'FontSize', 14)
     axis square
     if ~(size(caxis_range,1)==0)
