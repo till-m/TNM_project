@@ -6,42 +6,22 @@ rng(2406,'twister')
 
 %% MAIN
 
-yeo()
-%schaefer()
+analysis('yeo', [-0.025 0.025], 1)
+analysis('schaefer', [-0.002 0.002], 1)
 
-
-
-%% yeo analysis
-function yeo()
-    FDR_correction = 1;
-    caxis_range = [-0.025 0.025];
-
-
-    LSD_subjects = load_data("output_DCM/yeo/", "LSD");
-    PLCB_subjects = load_data("output_DCM/yeo/", "PLCB");
-    SCZ_subjects = load_data("output_DCM/yeo/", "SCZ");
-    CTRL_subjects = load_data("output_DCM/yeo/", "CTRL");
-    %ttest_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects, FDR_correction, caxis_range)
-    anova_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects);
-end
-
-
-%% schaefer analysis
-function schaefer()
-    FDR_correction = 1;
-    caxis_range = [-0.002 0.002];
-
-
-    LSD_subjects = load_data("output_DCM/schaefer/", "LSD");
-    PLCB_subjects = load_data("output_DCM/schaefer/", "PLCB");
-    SCZ_subjects = load_data("output_DCM/schaefer/", "SCZ");
-    CTRL_subjects = load_data("output_DCM/schaefer/", "CTRL");
+function analysis(name, caxis_range, FDR_correction)
+    LSD_subjects = load_data("output_DCM/" +name +"/", "LSD");
+    PLCB_subjects = load_data("output_DCM/" +name +"/", "PLCB");
+    SCZ_subjects = load_data("output_DCM/" +name +"/", "SCZ");
+    CTRL_subjects = load_data("output_DCM/" +name +"/", "CTRL");
     ticklabels = cellstr(LSD_subjects(1).rDCM_output.meta.regions);
-    ttest_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects, FDR_correction, caxis_range); %(, ticklabels);
+    
+    ttest_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects, FDR_correction, caxis_range);%, ticklabels)
+    anova_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects);%, ticklabels);
 end
 
 
-%% function definitions
+%% auxiliary function definitions
 
 function [ds_p, act_p, inter_p] = anova_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects)
     shape = size(LSD_subjects(1).rDCM_output.Ep.A);
@@ -104,6 +84,7 @@ function plot_anova_p(mat, plot_title, ticklabels)
     shg
 end
 
+
 function ttest_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects, FDR_correction, caxis_range, ticklabels)
     % bad way of making things optional
     if ~(exist('ticklabels', 'var'))
@@ -144,7 +125,7 @@ end
 
 function res = t_test(subjects1, subjects2, FDR_correction)
     shape = size(subjects1(1).rDCM_output.Ep.A);
-    [res,p] = ttest2(concat_subjects(subjects1).', concat_subjects(subjects2).'); 
+    [res,p] = ttest2(concat_subjects(subjects1).', concat_subjects(subjects2).','Vartype','unequal');
     % FDR correction
     if FDR_correction == 1
         [~,q] = mafdr(p);
@@ -269,11 +250,10 @@ function avg_and_plot_matrix(diff, tt_result, plot_title, caxis_range, ticklabel
     end
     xlabel('region (from)','FontSize',12)
     ylabel('region (to)','FontSize',12)
-    %set(gca,'xtick',[1:size(matrix,1)])
-    %set(gca,'ytick',[1:size(matrix,1)])
+
     if ~(size(ticklabels,1)==0)
-        set(gca,'xtick',1:size(matrix,1))
-        set(gca,'ytick',1:size(matrix,1))
+        set(gca,'xtick',1:size(avg,1))
+        set(gca,'ytick',1:size(avg,1))
         set(gca,'xticklabels', ticklabels)
         set(gca,'yticklabels', ticklabels)
     end
