@@ -7,7 +7,7 @@ rng(2406,'twister')
 %% MAIN
 
 yeo()
-schaefer()
+%schaefer()
 
 
 
@@ -21,7 +21,8 @@ function yeo()
     PLCB_subjects = load_data("output_DCM/yeo/", "PLCB");
     SCZ_subjects = load_data("output_DCM/yeo/", "SCZ");
     CTRL_subjects = load_data("output_DCM/yeo/", "CTRL");
-    ttest_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects, FDR_correction, caxis_range)
+    %ttest_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects, FDR_correction, caxis_range)
+    anova_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects)
 end
 
 
@@ -41,6 +42,50 @@ end
 
 
 %% function definitions
+
+function [ds_p, act_p, inter_p] = anova_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects)
+    shape = size(LSD_subjects(1).rDCM_output.Ep.A);
+    LSD_subjects_con = concat_subjects(LSD_subjects);
+    PLCB_subjects_con = concat_subjects(PLCB_subjects);
+    SCZ_subjects_con = concat_subjects(SCZ_subjects);
+    CTRL_subjects_con = concat_subjects(CTRL_subjects);
+    
+    % set up the groups
+    % group 1 describes which dataset the data is from
+    group1 = [repmat({'ds1'}, 1, size(LSD_subjects_con, 2)), repmat({'ds1'}, 1, size(PLCB_subjects_con, 2)), repmat({'ds2'}, 1, size(SCZ_subjects_con, 2)), repmat({'ds2'}, 1, size(CTRL_subjects_con, 2)),];
+    
+    % group 2 groups psychedelics & psychosis vs. the control groups
+    group2 = [repmat({'psych'}, 1, size(LSD_subjects_con, 2)), repmat({'baseline'}, 1, size(PLCB_subjects_con, 2)), repmat({'psych'}, 1, size(SCZ_subjects_con, 2)), repmat({'baseline'}, 1, size(CTRL_subjects_con, 2)),];
+    ds_p = [];
+    act_p = [];
+    inter_p = [];
+    n_variables = size(LSD_subjects_con, 1);
+    for i=1:n_variables
+        y = [LSD_subjects_con(i,:), PLCB_subjects_con(i,:), SCZ_subjects_con(i,:), CTRL_subjects_con(i,:)];
+        [p, tbl, ~] = anovan(y, {group1, group2}, 'model', 2, 'varnames', {'ds', 'act'}, 'display', 'off');
+        ds_p = [ds_p, p(1)];
+        act_p = [act_p, p(2)];
+        inter_p = [inter_p, p(3)];
+    end
+    ds_p = reshape(ds_p, shape);
+    act_p = reshape(act_p, shape);
+    inter_p = reshape(inter_p, shape);
+    
+    plot_anova_p(ds_p)
+    plot_anova_p(act_p)
+    plot_anova_p(inter_p)
+end
+
+function plot_anova_p(mat)
+    % plot
+    figure()
+
+    colormap('parula')
+    imagesc(mat)
+    colorbar
+    shg
+end
+
 function ttest_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects, FDR_correction, caxis_range, ticklabels)
     % bad way of making things optional
     if ~(exist('ticklabels', 'var'))
