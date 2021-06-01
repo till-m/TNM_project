@@ -51,7 +51,7 @@ def make_masker(scheme):
     if scheme.lower() == "harvox":  # 48 regions
         dataset = datasets.fetch_atlas_harvard_oxford('cort-maxprob-thr25-2mm')
         atlas_filename = dataset.maps
-        labels = dataset.labels[1:] # trim off "background" label
+        labels = dataset.labels[1:]  # trim off "background" label
         masker = NiftiLabelsMasker(labels_img=atlas_filename,
                                    standardize=True,
                                    high_variance_confounds=True,
@@ -62,7 +62,13 @@ def make_masker(scheme):
                                    standardize=True,
                                    high_variance_confounds=True,
                                    verbose=1)
-        labels = list(np.arange(1, 18))
+        labels = [
+            "Visual A", "Visual B", "Somatomotor A", "Somatomotor B",
+            "Dorsal Attention A", "Dorsal Attention B",
+            "Salience/Ventral Attention A", "Salience/Ventral Attention B",
+            "Limbic A", "Limbic B", "Control C", "Control A", "Control B",
+            "Temporal Parietal", "Default C", "Default A", "Default B"
+        ] # list from valerie-jzr
     elif scheme.lower() == "aal":  # 116 regions
         dataset = datasets.fetch_atlas_aal(version='SPM12')
         labels = dataset['labels']
@@ -71,7 +77,8 @@ def make_masker(scheme):
                                    high_variance_confounds=True,
                                    verbose=1)
     elif scheme.lower() == "schaefer":
-        dataset = datasets.fetch_atlas_schaefer_2018(n_rois=100,yeo_networks=17)
+        dataset = datasets.fetch_atlas_schaefer_2018(n_rois=100,
+                                                     yeo_networks=17)
         labels = dataset['labels']
         masker = NiftiLabelsMasker(labels_img=dataset['maps'],
                                    standardize=True,
