@@ -15,11 +15,76 @@ function analysis(name, caxis_range, FDR_correction)
     SCZ_subjects = load_data("output_DCM/" +name +"/", "SCZ");
     CTRL_subjects = load_data("output_DCM/" +name +"/", "CTRL");
     ticklabels = cellstr(LSD_subjects(1).rDCM_output.meta.regions);
+    
     ttest_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects, FDR_correction, caxis_range);%, ticklabels)
+    anova_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects);%, ticklabels);
 end
 
 
 %% auxiliary function definitions
+
+function [ds_p, act_p, inter_p] = anova_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects)
+    shape = size(LSD_subjects(1).rDCM_output.Ep.A);
+    LSD_subjects_con = concat_subjects(LSD_subjects);
+    PLCB_subjects_con = concat_subjects(PLCB_subjects);
+    SCZ_subjects_con = concat_subjects(SCZ_subjects);
+    CTRL_subjects_con = concat_subjects(CTRL_subjects);
+    
+    % set up the groups
+    % group 1 describes which dataset the data is from
+    group1 = [repmat({'ds1'}, 1, size(LSD_subjects_con, 2)), repmat({'ds1'}, 1, size(PLCB_subjects_con, 2)), repmat({'ds2'}, 1, size(SCZ_subjects_con, 2)), repmat({'ds2'}, 1, size(CTRL_subjects_con, 2)),];
+    
+    % group 2 groups psychedelics & psychosis vs. the control groups
+    group2 = [repmat({'psych'}, 1, size(LSD_subjects_con, 2)), repmat({'baseline'}, 1, size(PLCB_subjects_con, 2)), repmat({'psych'}, 1, size(SCZ_subjects_con, 2)), repmat({'baseline'}, 1, size(CTRL_subjects_con, 2)),];
+    ds_p = [];
+    act_p = [];
+    inter_p = [];
+    n_variables = size(LSD_subjects_con, 1);
+    for i=1:n_variables
+        y = [LSD_subjects_con(i,:), PLCB_subjects_con(i,:), SCZ_subjects_con(i,:), CTRL_subjects_con(i,:)];
+        [p, tbl, ~] = anovan(y, {group1, group2}, 'model', 2, 'varnames', {'ds', 'act'}, 'display', 'off');
+        ds_p = [ds_p, p(1)];
+        act_p = [act_p, p(2)];
+        inter_p = [inter_p, p(3)];
+    end
+    ds_p = reshape(ds_p, shape);
+    act_p = reshape(act_p, shape);
+    inter_p = reshape(inter_p, shape);
+    
+    plot_anova_p(ds_p, 'p-value (dataset term)')
+    plot_anova_p(act_p, 'p-value (active term)')
+    plot_anova_p(inter_p, 'p-value (interaction term)')
+end
+
+function plot_anova_p(mat, plot_title, ticklabels)
+    if ~(exist('ticklabels', 'var'))
+        ticklabels = [];
+    end
+
+    % plot
+    figure()
+
+    colormap('parula')
+    imagesc(mat)
+    colorbar
+    
+    title(plot_title, 'FontSize', 14)
+    axis square
+    caxis([0.0, 1.0])
+    xlabel('region (from)','FontSize',12)
+    ylabel('region (to)','FontSize',12)
+    %set(gca,'xtick',[1:size(matrix,1)])
+    %set(gca,'ytick',[1:size(matrix,1)])
+    if ~(size(ticklabels,1)==0)
+        set(gca,'xtick',1:size(matrix,1))
+        set(gca,'ytick',1:size(matrix,1))
+        set(gca,'xticklabels', ticklabels)
+        set(gca,'yticklabels', ticklabels)
+    end
+    shg
+end
+
+
 function ttest_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects, FDR_correction, caxis_range, ticklabels)
     % bad way of making things optional
     if ~(exist('ticklabels', 'var'))
