@@ -6,26 +6,110 @@ rng(2406,'twister')
 
 %% MAIN
 
-analysis('yeo', [-0.025 0.025], 1)
-analysis('schaefer', [-0.002 0.002], 1)
+analysis('yeo', [-0.025 0.025], 1, 1)
+analysis('schaefer', [-0.002 0.002], 1, 0)
 
-function analysis(name, caxis_range, FDR_correction)
+function analysis(name, caxis_range, FDR_correction, regions_as_ticklabels)
     LSD_subjects = load_data("output_DCM/" +name +"/", "LSD");
     PLCB_subjects = load_data("output_DCM/" +name +"/", "PLCB");
     SCZ_subjects = load_data("output_DCM/" +name +"/", "SCZ");
     CTRL_subjects = load_data("output_DCM/" +name +"/", "CTRL");
-    ticklabels = cellstr(LSD_subjects(1).rDCM_output.meta.regions);
-    ttest_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects, FDR_correction, caxis_range);%, ticklabels)
+    
+    if regions_as_ticklabels
+        ticklabels = cellstr(LSD_subjects(1).rDCM_output.meta.regions);
+    else
+        ticklabels = [];
+    end
+    
+    ttest_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects, FDR_correction, caxis_range, ticklabels);
+    anova_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects, FDR_correction, ticklabels);
 end
 
 
 %% auxiliary function definitions
-function ttest_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects, FDR_correction, caxis_range, ticklabels)
-    % bad way of making things optional
-    if ~(exist('ticklabels', 'var'))
-        ticklabels = [];
+
+function [ds_p, act_p, inter_p] = anova_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects, FDR_correction, ticklabels)
+    shape = size(LSD_subjects(1).rDCM_output.Ep.A);
+    LSD_subjects_con = concat_subjects(LSD_subjects);
+    PLCB_subjects_con = concat_subjects(PLCB_subjects);
+    SCZ_subjects_con = concat_subjects(SCZ_subjects);
+    CTRL_subjects_con = concat_subjects(CTRL_subjects);
+
+    % set up the groups
+    % group 1 describes which dataset the data is from
+    group1 = [repmat({'ds1'}, 1, size(LSD_subjects_con, 2)), repmat({'ds1'}, 1, size(PLCB_subjects_con, 2)), repmat({'ds2'}, 1, size(SCZ_subjects_con, 2)), repmat({'ds2'}, 1, size(CTRL_subjects_con, 2)),];
+
+    % group 2 groups psychedelics & psychosis vs. the control groups
+    group2 = [repmat({'psych'}, 1, size(LSD_subjects_con, 2)), repmat({'baseline'}, 1, size(PLCB_subjects_con, 2)), repmat({'psych'}, 1, size(SCZ_subjects_con, 2)), repmat({'baseline'}, 1, size(CTRL_subjects_con, 2)),];
+    ds_p = [];
+    act_p = [];
+    inter_p = [];
+    n_variables = size(LSD_subjects_con, 1);
+    for i=1:n_variables
+        y = [LSD_subjects_con(i,:), PLCB_subjects_con(i,:), SCZ_subjects_con(i,:), CTRL_subjects_con(i,:)];
+        [p, tbl, ~] = anovan(y, {group1, group2}, 'model', 2, 'varnames', {'ds', 'act'}, 'display', 'off');
+        ds_p = [ds_p, p(1)];
+        act_p = [act_p, p(2)];
+        inter_p = [inter_p, p(3)];
+    end
+    
+    p_value_histogram(ds_p, "p-val dist. dataset term")
+    p_value_histogram(act_p, "p-val dist LSD+SCZ vs. PLCB+CTRL term")
+    p_value_histogram(inter_p, "p-val dist interaction term")
+    
+    % FDR correction for the dataset term
+    if FDR_correction == 1
+        [~,q] = mafdr(ds_p);
+        ds_p = q <= 0.05;
+    end
+    p_value_histogram(q, "q-val dist. dataset term")
+    
+    ds_p = reshape(ds_p, shape);
+    act_p = reshape(act_p, shape);
+    inter_p = reshape(inter_p, shape);
+    
+    if FDR_correction
+        plot_significance(ds_p, 'Significance dataset term (FDR corr.)', ticklabels)
+    else
+        plot_significance(ds_p <= 0.05, 'Significance dataset term', ticklabels)
     end
 
+    plot_significance(act_p <= 0.05, 'Significance LSD+SCZ vs. PLCB+CTRL term', ticklabels)
+    plot_significance(inter_p <= 0.05, 'Significance interaction term', ticklabels)
+end
+
+function p_value_histogram(p_values, plot_title)
+    figure()
+    histogram(p_values, 20)
+    title(plot_title)
+    shg
+end
+
+function plot_anova_p(mat, plot_title, ticklabels)
+    % plot
+    figure()
+
+    colormap('parula')
+    imagesc(mat)
+    colorbar
+    
+    title(plot_title, 'FontSize', 14)
+    axis square
+    caxis([0.0, 1.0])
+    xlabel('region (from)','FontSize',12)
+    ylabel('region (to)','FontSize',12)
+    %set(gca,'xtick',[1:size(matrix,1)])
+    %set(gca,'ytick',[1:size(matrix,1)])
+    if ~(size(ticklabels,1)==0)
+        set(gca,'xtick',1:size(matrix,1))
+        set(gca,'ytick',1:size(matrix,1))
+        set(gca,'xticklabels', ticklabels)
+        set(gca,'yticklabels', ticklabels)
+    end
+    shg
+end
+
+function ttest_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects, FDR_correction, caxis_range, ticklabels)
     % t-test LSD vs. PLCB
     tt = t_test(LSD_subjects, PLCB_subjects, FDR_correction);
     plot_significance(tt,'Significance LSD/PLCB', ticklabels);
@@ -140,7 +224,7 @@ function res = select_regions_by_name(regions, all_regions, matrix)
 end
 
 function plot_significance(matrix, plot_title, ticklabels)
-    figure()
+    figure('Position', [10 10 900 600])
 
     map = [0.2 0.1 0.5
            0 1 1];
@@ -172,7 +256,7 @@ function avg_and_plot_matrix(diff, tt_result, plot_title, caxis_range, ticklabel
     avg = reshape(avg,shape);
     avg(tt_result==0) = 0;
 
-    figure()
+    figure('Position', [10 10 900 600])
 
     colormap('parula')
     imagesc(avg)
