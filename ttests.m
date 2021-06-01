@@ -30,6 +30,9 @@ end
 
 function [ds_p, act_p, inter_p] = anova_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects, FDR_correction, ticklabels)
     shape = size(LSD_subjects(1).rDCM_output.Ep.A);
+
+    n_subjects = min([size(LSD_subjects, 2), size(PLCB_subjects, 2), size(SCZ_subjects, 2), size(CTRL_subjects, 2)]);
+    
     LSD_subjects_con = concat_subjects(LSD_subjects);
     PLCB_subjects_con = concat_subjects(PLCB_subjects);
     SCZ_subjects_con = concat_subjects(SCZ_subjects);
@@ -37,45 +40,53 @@ function [ds_p, act_p, inter_p] = anova_wrapper(LSD_subjects, PLCB_subjects, SCZ
 
     % set up the groups
     % group 1 describes which dataset the data is from
-    group1 = [repmat({'ds1'}, 1, size(LSD_subjects_con, 2)), repmat({'ds1'}, 1, size(PLCB_subjects_con, 2)), repmat({'ds2'}, 1, size(SCZ_subjects_con, 2)), repmat({'ds2'}, 1, size(CTRL_subjects_con, 2)),];
+    group1 = [repmat({'ds1'}, 1, n_subjects), repmat({'ds1'}, 1, n_subjects), repmat({'ds2'}, 1, n_subjects), repmat({'ds2'}, 1, n_subjects)];
 
     % group 2 groups psychedelics & psychosis vs. the control groups
-    group2 = [repmat({'psych'}, 1, size(LSD_subjects_con, 2)), repmat({'baseline'}, 1, size(PLCB_subjects_con, 2)), repmat({'psych'}, 1, size(SCZ_subjects_con, 2)), repmat({'baseline'}, 1, size(CTRL_subjects_con, 2)),];
+    group2 = [repmat({'psych'}, 1, n_subjects), repmat({'baseline'}, 1, n_subjects), repmat({'psych'}, 1, n_subjects), repmat({'baseline'}, 1, n_subjects)];
     ds_p = [];
     act_p = [];
     inter_p = [];
     n_variables = size(LSD_subjects_con, 1);
+
     for i=1:n_variables
-        y = [LSD_subjects_con(i,:), PLCB_subjects_con(i,:), SCZ_subjects_con(i,:), CTRL_subjects_con(i,:)];
+        y = [LSD_subjects_con(i,1:n_subjects), PLCB_subjects_con(i,1:n_subjects), SCZ_subjects_con(i,1:n_subjects), CTRL_subjects_con(i,1:n_subjects)];
         [p, tbl, ~] = anovan(y, {group1, group2}, 'model', 2, 'varnames', {'ds', 'act'}, 'display', 'off');
         ds_p = [ds_p, p(1)];
         act_p = [act_p, p(2)];
         inter_p = [inter_p, p(3)];
     end
     
-    p_value_histogram(ds_p, "p-val dist. dataset term")
-    p_value_histogram(act_p, "p-val dist LSD+SCZ vs. PLCB+CTRL term")
-    p_value_histogram(inter_p, "p-val dist interaction term")
-    
+    %p_value_histogram(ds_p, "p-val dist. dataset term")
+    %p_value_histogram(act_p, "p-val dist LSD+SCZ vs. PLCB+CTRL term")
+    %p_value_histogram(inter_p, "p-val dist interaction term")
+
+
     % FDR correction for the dataset term
     if FDR_correction == 1
         [~,q] = mafdr(ds_p);
         ds_p = q <= 0.05;
+        [~,q] = mafdr(act_p);
+        act_p = q <= 0.05;
+        [~,q] = mafdr(inter_p);
+        inter_p = q <= 0.05;
     end
-    p_value_histogram(q, "q-val dist. dataset term")
     
     ds_p = reshape(ds_p, shape);
     act_p = reshape(act_p, shape);
     inter_p = reshape(inter_p, shape);
     
     if FDR_correction
-        plot_significance(ds_p, 'Significance dataset term (FDR corr.)', ticklabels)
+        plot_significance(ds_p, 'Significance dataset term', ticklabels)
+        plot_significance(act_p, 'Significance LSD+SCZ vs. PLCB+CTRL term', ticklabels)
+        plot_significance(inter_p, 'Significance interaction term', ticklabels)
     else
         plot_significance(ds_p <= 0.05, 'Significance dataset term', ticklabels)
+        plot_significance(act_p <= 0.05, 'Significance LSD+SCZ vs. PLCB+CTRL term', ticklabels)
+        plot_significance(inter_p <= 0.05, 'Significance interaction term', ticklabels)
     end
 
-    plot_significance(act_p <= 0.05, 'Significance LSD+SCZ vs. PLCB+CTRL term', ticklabels)
-    plot_significance(inter_p <= 0.05, 'Significance interaction term', ticklabels)
+
 end
 
 function p_value_histogram(p_values, plot_title)
@@ -118,7 +129,7 @@ function ttest_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects,
     tt = t_test(SCZ_subjects, CTRL_subjects, FDR_correction);
     plot_significance(tt,'Significance SCZ/CTRL', ticklabels);
     
-    % t-test SCZ vs. CTRL
+    % t-test LSD-PLCB_avg vs SCZ - CTRL_avg
     diff1 = unpaired_diff(LSD_subjects, PLCB_subjects);
     diff2 = unpaired_diff(SCZ_subjects, CTRL_subjects);
     
