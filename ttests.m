@@ -62,27 +62,45 @@ function [ds_p, act_p, inter_p] = anova_wrapper(LSD_subjects, PLCB_subjects, SCZ
     n_variables = size(LSD_subjects_con, 1);
     for i=1:n_variables
         y = [LSD_subjects_con(i,:), PLCB_subjects_con(i,:), SCZ_subjects_con(i,:), CTRL_subjects_con(i,:)];
-        [p, tbl, ~] = anovan(y, {group1, group2}, 'model', 2, 'varnames', {'ds', 'act'}, 'display', 'off');
+        [p, tbl, ~] = anovan(y, {group1, group2}, 'varnames', {'ds', 'act'}, 'display', 'off');
         ds_p = [ds_p, p(1)];
         act_p = [act_p, p(2)];
-        inter_p = [inter_p, p(3)];
+        %inter_p = [inter_p, p(3)];
     end
     ds_p = reshape(ds_p, shape);
     act_p = reshape(act_p, shape);
-    inter_p = reshape(inter_p, shape);
+    %inter_p = reshape(inter_p, shape);
     
-    plot_anova_p(ds_p)
-    plot_anova_p(act_p)
-    plot_anova_p(inter_p)
+    plot_anova_p(ds_p, 'p-value (dataset term)')
+    plot_anova_p(act_p, 'p-value (active term)')
+    %plot_anova_p(inter_p, 'p-value (interaction term)')
 end
 
-function plot_anova_p(mat)
+function plot_anova_p(mat, plot_title, ticklabels)
+    if ~(exist('ticklabels', 'var'))
+        ticklabels = [];
+    end
+
     % plot
     figure()
 
     colormap('parula')
     imagesc(mat)
     colorbar
+    
+    title(plot_title, 'FontSize', 14)
+    axis square
+    caxis([0.0, 1.0])
+    xlabel('region (from)','FontSize',12)
+    ylabel('region (to)','FontSize',12)
+    %set(gca,'xtick',[1:size(matrix,1)])
+    %set(gca,'ytick',[1:size(matrix,1)])
+    if ~(size(ticklabels,1)==0)
+        set(gca,'xtick',1:size(matrix,1))
+        set(gca,'ytick',1:size(matrix,1))
+        set(gca,'xticklabels', ticklabels)
+        set(gca,'yticklabels', ticklabels)
+    end
     shg
 end
 
