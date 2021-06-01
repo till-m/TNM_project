@@ -22,13 +22,13 @@ function analysis(name, caxis_range, FDR_correction, regions_as_ticklabels)
     end
     
     ttest_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects, FDR_correction, caxis_range, ticklabels);
-    anova_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects, ticklabels);
+    anova_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects, FDR_correction, ticklabels);
 end
 
 
 %% auxiliary function definitions
 
-function [ds_p, act_p, inter_p] = anova_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects, ticklabels)
+function [ds_p, act_p, inter_p] = anova_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects, FDR_correction, ticklabels)
     shape = size(LSD_subjects(1).rDCM_output.Ep.A);
     LSD_subjects_con = concat_subjects(LSD_subjects);
     PLCB_subjects_con = concat_subjects(PLCB_subjects);
@@ -56,14 +56,26 @@ function [ds_p, act_p, inter_p] = anova_wrapper(LSD_subjects, PLCB_subjects, SCZ
     p_value_histogram(ds_p, "p-val dist. dataset term")
     p_value_histogram(act_p, "p-val dist LSD+SCZ vs. PLCB+CTRL term")
     p_value_histogram(inter_p, "p-val dist interaction term")
-
+    
+    % FDR correction for the dataset term
+    if FDR_correction == 1
+        [~,q] = mafdr(ds_p);
+        ds_p = q <= 0.05;
+    end
+    p_value_histogram(q, "q-val dist. dataset term")
+    
     ds_p = reshape(ds_p, shape);
     act_p = reshape(act_p, shape);
     inter_p = reshape(inter_p, shape);
+    
+    if FDR_correction
+        plot_significance(ds_p, 'Significance dataset term (FDR corr.)', ticklabels)
+    else
+        plot_significance(ds_p <= 0.05, 'Significance dataset term', ticklabels)
+    end
 
-    plot_significance(ds_p < 0.05, 'Significance dataset term', ticklabels)
-    plot_significance(act_p < 0.05, 'Significance LSD+SCZ vs. PLCB+CTRL term', ticklabels)
-    plot_significance(inter_p < 0.05, 'Significance interaction term', ticklabels)
+    plot_significance(act_p <= 0.05, 'Significance LSD+SCZ vs. PLCB+CTRL term', ticklabels)
+    plot_significance(inter_p <= 0.05, 'Significance interaction term', ticklabels)
 end
 
 function p_value_histogram(p_values, plot_title)
