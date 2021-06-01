@@ -60,7 +60,7 @@ end
 
 function res = t_test(subjects1, subjects2, FDR_correction)
     shape = size(subjects1(1).rDCM_output.Ep.A);
-    [res,p] = ttest2(concat_subjects(subjects1).', concat_subjects(subjects2).'); 
+    [res,p] = ttest2(concat_subjects(subjects1).', concat_subjects(subjects2).','Vartype','unequal');
     % FDR correction
     if FDR_correction == 1
         [~,q] = mafdr(p);
