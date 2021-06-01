@@ -6,34 +6,39 @@ rng(2406,'twister')
 
 %% MAIN
 
-analysis('yeo', [-0.025 0.025], 1)
-analysis('schaefer', [-0.002 0.002], 1)
+analysis('yeo', [-0.025 0.025], 1, 1)
+analysis('schaefer', [-0.002 0.002], 1, 0)
 
-function analysis(name, caxis_range, FDR_correction)
+function analysis(name, caxis_range, FDR_correction, regions_as_ticklabels)
     LSD_subjects = load_data("output_DCM/" +name +"/", "LSD");
     PLCB_subjects = load_data("output_DCM/" +name +"/", "PLCB");
     SCZ_subjects = load_data("output_DCM/" +name +"/", "SCZ");
     CTRL_subjects = load_data("output_DCM/" +name +"/", "CTRL");
-    ticklabels = cellstr(LSD_subjects(1).rDCM_output.meta.regions);
     
-    ttest_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects, FDR_correction, caxis_range);%, ticklabels)
-    anova_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects);%, ticklabels);
+    if regions_as_ticklabels
+        ticklabels = cellstr(LSD_subjects(1).rDCM_output.meta.regions);
+    else
+        ticklabels = [];
+    end
+    
+    ttest_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects, FDR_correction, caxis_range, ticklabels);
+    anova_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects, ticklabels);
 end
 
 
 %% auxiliary function definitions
 
-function [ds_p, act_p, inter_p] = anova_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects)
+function [ds_p, act_p, inter_p] = anova_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects, ticklabels)
     shape = size(LSD_subjects(1).rDCM_output.Ep.A);
     LSD_subjects_con = concat_subjects(LSD_subjects);
     PLCB_subjects_con = concat_subjects(PLCB_subjects);
     SCZ_subjects_con = concat_subjects(SCZ_subjects);
     CTRL_subjects_con = concat_subjects(CTRL_subjects);
-    
+
     % set up the groups
     % group 1 describes which dataset the data is from
     group1 = [repmat({'ds1'}, 1, size(LSD_subjects_con, 2)), repmat({'ds1'}, 1, size(PLCB_subjects_con, 2)), repmat({'ds2'}, 1, size(SCZ_subjects_con, 2)), repmat({'ds2'}, 1, size(CTRL_subjects_con, 2)),];
-    
+
     % group 2 groups psychedelics & psychosis vs. the control groups
     group2 = [repmat({'psych'}, 1, size(LSD_subjects_con, 2)), repmat({'baseline'}, 1, size(PLCB_subjects_con, 2)), repmat({'psych'}, 1, size(SCZ_subjects_con, 2)), repmat({'baseline'}, 1, size(CTRL_subjects_con, 2)),];
     ds_p = [];
@@ -47,20 +52,28 @@ function [ds_p, act_p, inter_p] = anova_wrapper(LSD_subjects, PLCB_subjects, SCZ
         act_p = [act_p, p(2)];
         inter_p = [inter_p, p(3)];
     end
+    
+    p_value_histogram(ds_p, "p-val dist. dataset term")
+    p_value_histogram(act_p, "p-val dist LSD+SCZ vs. PLCB+CTRL term")
+    p_value_histogram(inter_p, "p-val dist interaction term")
+
     ds_p = reshape(ds_p, shape);
     act_p = reshape(act_p, shape);
     inter_p = reshape(inter_p, shape);
-    
-    plot_anova_p(ds_p, 'p-value (dataset term)')
-    plot_anova_p(act_p, 'p-value (active term)')
-    plot_anova_p(inter_p, 'p-value (interaction term)')
+
+    plot_significance(ds_p < 0.05, 'Significance dataset term', ticklabels)
+    plot_significance(act_p < 0.05, 'Significance LSD+SCZ vs. PLCB+CTRL term', ticklabels)
+    plot_significance(inter_p < 0.05, 'Significance interaction term', ticklabels)
+end
+
+function p_value_histogram(p_values, plot_title)
+    figure()
+    histogram(p_values, 20)
+    title(plot_title)
+    shg
 end
 
 function plot_anova_p(mat, plot_title, ticklabels)
-    if ~(exist('ticklabels', 'var'))
-        ticklabels = [];
-    end
-
     % plot
     figure()
 
@@ -84,13 +97,7 @@ function plot_anova_p(mat, plot_title, ticklabels)
     shg
 end
 
-
 function ttest_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects, FDR_correction, caxis_range, ticklabels)
-    % bad way of making things optional
-    if ~(exist('ticklabels', 'var'))
-        ticklabels = [];
-    end
-
     % t-test LSD vs. PLCB
     tt = t_test(LSD_subjects, PLCB_subjects, FDR_correction);
     plot_significance(tt,'Significance LSD/PLCB', ticklabels);
@@ -205,7 +212,7 @@ function res = select_regions_by_name(regions, all_regions, matrix)
 end
 
 function plot_significance(matrix, plot_title, ticklabels)
-    figure()
+    figure('Position', [10 10 900 600])
 
     map = [0.2 0.1 0.5
            0 1 1];
@@ -237,7 +244,7 @@ function avg_and_plot_matrix(diff, tt_result, plot_title, caxis_range, ticklabel
     avg = reshape(avg,shape);
     avg(tt_result==0) = 0;
 
-    figure()
+    figure('Position', [10 10 900 600])
 
     colormap('parula')
     imagesc(avg)
