@@ -21,7 +21,7 @@ function analysis(name, caxis_range, FDR_correction, regions_as_ticklabels)
         ticklabels = [];
     end
     
-    %ttest_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects, FDR_correction, caxis_range, ticklabels);
+    ttest_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects, FDR_correction, caxis_range, ticklabels);
     anova_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects, FDR_correction, ticklabels);
 end
 

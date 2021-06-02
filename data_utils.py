@@ -1,13 +1,4 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Tue May  4 17:27:57 2021
-
-@author: zhenrujia
-"""
-
 import numpy as np
-import pandas as pd
 import nibabel as nib
 from nilearn import datasets
 from nilearn.input_data import NiftiLabelsMasker

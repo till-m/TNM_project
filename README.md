@@ -12,7 +12,7 @@
 
 4. (Optional) change the parcellation scheme by modifying the corresponding entry in `config.yml`. Options include:
     - `yeo` for [Yeo-2011](doi.org/10.1152/jn.00338.2011)
-    - `harvox`
+    - `harvox` for [Harvard-Oxford](https://neurovault.org/collections/262/)
     - `aal` for [Automated Anatomical Labeling](https://doi.org/10.1006%2Fnimg.2001.0978)
     -  `schaefer` for [Schafer-2018](doi.org/10.1093/cercor/bhx179)
 
@@ -24,4 +24,4 @@
         curl https://polybox.ethz.ch/index.php/s/jioOccqPFjU6cpk/download -o output_DCM.7z
     and unpacking to a folder called `output_DCM/`.
 
-2. Run `ttest.m` using MATLAB.
+2. Run `analysis.m` using MATLAB.
