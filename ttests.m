@@ -21,7 +21,7 @@ function analysis(name, caxis_range, FDR_correction, regions_as_ticklabels)
         ticklabels = [];
     end
     
-    ttest_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects, FDR_correction, caxis_range, ticklabels);
+    %ttest_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects, FDR_correction, caxis_range, ticklabels);
     anova_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects, FDR_correction, ticklabels);
 end
 
@@ -64,28 +64,28 @@ function [ds_p, act_p, inter_p] = anova_wrapper(LSD_subjects, PLCB_subjects, SCZ
 
     % FDR correction for the dataset term
     if FDR_correction == 1
-        [~,q] = mafdr(ds_p);
-        ds_p = q <= 0.05;
-        [~,q] = mafdr(act_p);
-        act_p = q <= 0.05;
-        [~,q] = mafdr(inter_p);
-        inter_p = q <= 0.05;
+        [~,ds_q] = mafdr(ds_p);
+        [~,act_q] = mafdr(act_p);
+        [~,inter_q] = mafdr(inter_p);
     end
     
     ds_p = reshape(ds_p, shape);
     act_p = reshape(act_p, shape);
     inter_p = reshape(inter_p, shape);
     
+    ds_q = reshape(ds_q, shape);
+    act_q = reshape(act_q, shape);
+    inter_q = reshape(inter_q, shape);
+    
+    plot_significance(ds_p <= 0.05, 'Significance dataset term', ticklabels)
+    plot_significance(act_p <= 0.05, 'Significance LSD+SCZ vs. PLCB+CTRL term', ticklabels)
+    plot_significance(inter_p <= 0.05, 'Significance interaction term', ticklabels)
+        
     if FDR_correction
-        plot_significance(ds_p, 'Significance dataset term', ticklabels)
-        plot_significance(act_p, 'Significance LSD+SCZ vs. PLCB+CTRL term', ticklabels)
-        plot_significance(inter_p, 'Significance interaction term', ticklabels)
-    else
-        plot_significance(ds_p <= 0.05, 'Significance dataset term', ticklabels)
-        plot_significance(act_p <= 0.05, 'Significance LSD+SCZ vs. PLCB+CTRL term', ticklabels)
-        plot_significance(inter_p <= 0.05, 'Significance interaction term', ticklabels)
+        plot_significance(ds_q <= 0.05, 'Significance dataset term (FDR corr.)', ticklabels)
+        plot_significance(act_q <= 0.05, 'Significance LSD+SCZ vs. PLCB+CTRL term (FDR corr.)', ticklabels)
+        plot_significance(inter_q <= 0.05, 'Significance interaction term (FDR corr.)', ticklabels)
     end
-
 
 end
 
