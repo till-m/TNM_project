@@ -11,10 +11,10 @@
 3. Download the datasets [ds003059](https://openneuro.org/datasets/ds003059/versions/1.0.0) and [ds00030](https://openneuro.org/datasets/ds000030/versions/1.0.0) to the `data/` directory.
 
 4. (Optional) change the parcellation scheme by modifying the corresponding entry in `config.yml`. Options include:
-    - `yeo` for [Yeo-2011](doi.org/10.1152/jn.00338.2011)
+    - `yeo` for [Yeo-2011](https://doi.org/10.1152/jn.00338.2011)
     - `harvox` for [Harvard-Oxford](https://neurovault.org/collections/262/)
     - `aal` for [Automated Anatomical Labeling](https://doi.org/10.1006%2Fnimg.2001.0978)
-    -  `schaefer` for [Schafer-2018](doi.org/10.1093/cercor/bhx179)
+    -  `schaefer` for [Schafer-2018](https://doi.org/10.1093/cercor/bhx179)
 
 5. Execute `main.py`.
 
