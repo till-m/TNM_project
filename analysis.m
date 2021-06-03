@@ -6,10 +6,10 @@ rng(2406,'twister')
 
 %% MAIN
 
-analysis('yeo', [-0.025 0.025], 1, 1)
-analysis('schaefer', [-0.002 0.002], 1, 0)
+analysis_main('yeo', [-0.025 0.025], 1, 1)
+analysis_main('schaefer', [-0.002 0.002], 1, 0)
 
-function analysis(name, caxis_range, FDR_correction, regions_as_ticklabels)
+function analysis_main(name, caxis_range, FDR_correction, regions_as_ticklabels)
     LSD_subjects = load_data("output_DCM/" +name +"/", "LSD");
     PLCB_subjects = load_data("output_DCM/" +name +"/", "PLCB");
     SCZ_subjects = load_data("output_DCM/" +name +"/", "SCZ");
