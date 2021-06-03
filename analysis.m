@@ -129,6 +129,10 @@ function ttest_wrapper(LSD_subjects, PLCB_subjects, SCZ_subjects, CTRL_subjects,
     tt = t_test(SCZ_subjects, CTRL_subjects, FDR_correction);
     plot_significance(tt,'Significance SCZ/CTRL', ticklabels);
     
+    % t-test PLCB vs. CTRL
+    tt = t_test(PLCB_subjects, CTRL_subjects, FDR_correction);
+    plot_significance(tt,'Significance PLCB/CTRL', ticklabels);
+    
     % t-test LSD-PLCB_avg vs SCZ - CTRL_avg
     diff1 = unpaired_diff(LSD_subjects, PLCB_subjects);
     diff2 = unpaired_diff(SCZ_subjects, CTRL_subjects);
